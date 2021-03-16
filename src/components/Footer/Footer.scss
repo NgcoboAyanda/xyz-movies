@@ -1,0 +1,23 @@
+footer{
+    //margin-top: 6%;
+    color: white;
+    border-top: 1px solid rgba(0, 0, 0, 0.096);
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-dark);      
+}
+
+.footer-text{
+    .year{
+        margin-right: 5px;
+    }
+
+    &:hover {
+        cursor: pointer;
+        color: var(--secondary);
+    }
+}
+
+

@@ -1,0 +1,32 @@
+//inter font
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap');
+
+//
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    outline: none;
+    list-style-type: none;
+}
+
+:root{
+    --primary-light: rgb(0, 153, 255);
+    --primary-dark: rgb(0, 57, 143);
+    --secondary: rgb(255, 65, 208);
+    --secondary-dim: rgb(252, 157, 230);
+}
+
+html{
+    height: 100%;
+}
+
+body{
+    height: 100%;
+    font-family: 'Inter', sans-serif;
+    background-color: f9f9f9;
+}
+
+
+

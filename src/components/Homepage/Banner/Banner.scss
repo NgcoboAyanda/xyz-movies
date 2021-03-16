@@ -1,0 +1,50 @@
+.front-page{
+    width: 100%;
+    display: flex;
+
+    &-poster{
+        //border: 1px solid red;
+        background-image: linear-gradient(rgba(3, 10, 73, 0.61),rgba(0, 0, 0, 0)), url('https://fandomwire.com/wp-content/uploads/2020/06/Wonder-Woman-1984-Hot-Toys-Figure-Revealed.jpg');
+        flex: 1;
+        min-height: 400px;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        display: flex;
+        justify-content: center;
+
+        .text{
+            align-self:center;
+            text-align: center;
+
+            &-heading{
+                font-size: 2.5rem;
+                color: white;
+                margin-bottom: 5%;
+                font-weight: 300;
+            }
+
+            &-cta{
+                cursor: pointer;
+                background: var(--primary-light);
+                border: none;
+                font-size: 1.6rem;
+                padding: 10px 20px;
+                border-radius: 100px;
+                color: white;
+                transition: 0.1s transform linear;
+                box-shadow: 0 5px 20px 5px rgba(0, 0, 0, 0.507);
+
+                &:hover{
+                    transform: scale(1.05);
+                    border: 1px solid var(--secondary);
+                }
+
+                &:active{
+                    transform: scale(1);
+                }
+            }
+        }
+    }
+
+}

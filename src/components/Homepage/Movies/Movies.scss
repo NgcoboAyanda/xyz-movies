@@ -1,0 +1,117 @@
+// roboto font
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
+
+
+.movies {
+    background: linear-gradient(rgb(0, 41, 41),var(--primary-dark));
+    font-family: 'Roboto', sans-serif;
+    min-height: 40vh;
+    padding: 4% 4%;
+
+    &-genre{
+        position: relative;
+
+        .heading{
+            font-size: 2.6rem;
+            font-weight: 300;
+            color: white;
+        }
+
+        .scroll-btn{
+            z-index: 50;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 65px;
+            width: 65px;
+            background: transparent;
+            color: white;
+            border: none;
+            cursor: pointer;
+
+            > svg{
+                fill: currentColor;
+            }
+
+            &:hover{
+                color: var(--secondary);
+                height: 70px;
+                width: 70px;
+            }
+            &:active{
+                height: 65px;
+                width: 65px;
+            }
+        }
+        .next-btn{
+            right: 0;
+        }
+        .prev-btn{
+            left: 0;
+        }
+    }
+    &-info{
+        padding: 3% 3%;
+        display: flex;
+        min-height: 400px;
+
+        .poster{
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position:center;
+            cursor: pointer;
+            transition: transform 0.1s linear;
+
+            & > img {
+                height: 500px;
+            }
+           
+            &:hover{
+                transform: scale(1.03);
+            }
+        }
+        .text{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+
+            > * {
+                color: white;
+                margin-bottom: 5%;
+            }
+            .title{
+                font-size: 2.3rem;
+            }
+            .year{
+                font-size: 1.4rem;
+            }
+            .cta {
+                background: transparent;
+                border: 2px solid var(--secondary-dim);
+                color: var(--secondary-dim);
+                font-size: 1.8rem;
+                padding: 8px 25px;
+                cursor: pointer;
+                transition: all 0.1s linear;
+
+                &:hover{
+                    background: var(--secondary-dim);
+                    color: white;
+                    transform: scale(1.07);
+                    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.329);
+                }
+                &:active{
+                    transform: scale(1);
+                }
+            }
+        }
+    }
+
+}
