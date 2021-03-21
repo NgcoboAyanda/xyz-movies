@@ -7,7 +7,6 @@ import Menu from './Menu/Menu.js';
 
 class Navbar extends Component {
 
-
     render(){
         return(
             <nav className="nav">
