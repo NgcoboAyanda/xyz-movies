@@ -48,9 +48,7 @@ class Navbar extends Component {
                     </ul>
                     <ul className="nav-menu">
                         <li className="nav-menu-link">
-                            <Link>
-                                <Menu/>
-                            </Link>
+                            <Menu/>
                         </li>
                     </ul>
             </nav>

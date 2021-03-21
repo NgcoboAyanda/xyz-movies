@@ -1,27 +1,64 @@
-.menu { 
-    height: 29px;
-    width: 46px;
-    //border: 1px solid red;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    cursor: pointer;
+.menu{
 
-    span{
-        height:3px;
-        display: block;
-        background-color: white;
-        pointer-events: none;
+    &-btn{
+        width: 45px;
+        height: 100%;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+
+        svg{
+            height: 100%;
+            width: 100%;
+            fill: white;
+        }
+
+        &:active{
+            transform: scale(0.94);
+        }
     }
 
-    span:not(.middle){
-        width: 100%;
+    &-submenu{
+        position: fixed;
+        left: 0;
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor:default;
+
+        .bg{
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            background: rgba(0, 0, 0, 0.938);
+        }
+
+        .links{
+            //background: red;
+            z-index: 4;
+            height: 60%;
+            width: 100%;
+            font-size: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: center;
+            align-items: center;
+
+            .link > a,div {
+                width: 100%;
+                color: white;
+                cursor: pointer;
+
+                &:hover {
+                    color: var(--secondary-dim);
+                }
+            }
+
+        }
+                
+        
     }
-
-    .middle{
-        width: 60%;
-        align-self: flex-end;
-    }
-
-
 }

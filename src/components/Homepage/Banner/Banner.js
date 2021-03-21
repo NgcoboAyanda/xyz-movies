@@ -10,10 +10,10 @@ const Banner = () => {
                 <div className="front-page-poster">
                     <div className="text">
                         <h3 className="text-heading">
-                            Wonder Woman 1984 Out Now
+                            Snyder's Justice League out now
                         </h3>
                         <button className="text-cta">
-                            Watch now
+                            watch now
                         </button>
                     </div>
                 </div>
