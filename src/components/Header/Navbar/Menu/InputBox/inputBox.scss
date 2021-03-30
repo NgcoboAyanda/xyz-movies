@@ -5,8 +5,8 @@ form{
     .sub-menu-search-box{
         width: 100%;
         font-size: 1.3rem;
-        padding: 15px 0;
-        padding-left: 5%;
+        padding: 15px 5%;
+        text-align: center;
         border: none;
     }
     
@@ -15,7 +15,7 @@ form{
         width: 60px;
         position: absolute;
         top: 0;
-        right: 0;
+        right: -45px;
         background: var(--primary-dark);
         display: flex;
         justify-content: center;
@@ -24,6 +24,10 @@ form{
 
         &:hover{
             background: var(--primary-light);
+        }
+
+        &:active{
+            background: var(--secondary-dim);
         }
 
         svg{

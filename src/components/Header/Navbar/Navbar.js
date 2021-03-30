@@ -13,10 +13,7 @@ class Navbar extends Component {
                     <div className="nav-logo">
                         <Link to="/">XYZ movies</Link>
                     </div>
-                    <Searchbar
-                        placeholder = "search movies/tv shows"
-                        onSubmit = {this.submitSearch}
-                    />
+                    <Searchbar/>
                     <ul className="nav-list">
                         <li className="nav-list-link">
                             <Link to="/login">Login</Link>
