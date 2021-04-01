@@ -1,0 +1,61 @@
+.authpage{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    &-info{
+        position: absolute;
+        font-size: 0.9rem;
+        border-radius: 3px;
+        width: 50%;
+        text-align: center;
+        padding: 1% 0;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        background: red;
+    }
+
+    &-form{
+        //border: 1px solid red;
+        width: 480px;
+        min-height: 500px;
+        //background: red;
+
+        &-heading{
+            display: flex;
+            //background: var(--primary-dark);
+            font-size: 1.1rem;
+            //color: white;
+            border-bottom: 1px solid rgba(0, 108, 231, 0.096);
+            padding: 0 10px;
+
+            span{
+                flex: 1;
+                text-align: center;
+                padding: 10px 0;
+                cursor: pointer;
+
+                &:hover:not(.selected){
+                    background: rgba(128, 128, 128, 0.171);
+                }
+            }
+
+            .selected{
+                background: var(--primary-light);
+                color: white;
+            }
+        }
+
+        .title{
+            font-size: 1.4rem;
+            font-weight: 200;
+        }
+
+        input{
+            height: 35px;
+        }
+    }
+}

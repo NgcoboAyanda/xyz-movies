@@ -1,0 +1,51 @@
+.login-page-form{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 6% 0;
+
+    
+    div{
+        height: 60px;
+        width: 85%;
+        margin-bottom: 6%;
+        border-radius: 4px;
+        overflow: none;
+        padding-left:10px;
+        padding-right: 30px;
+        position:relative;
+        //border: 1px solid;
+
+        input{
+            height: 100%;
+            width: 100%;
+            border: none;
+            font-size: 1.3rem;
+            background: white;
+        }
+
+        button{
+            width: 30px;
+            height: 100%;
+            position: absolute;
+            right: 5px;
+            top: 0;
+            cursor: pointer;
+            background: white;
+        }
+    }
+    .login-btn{
+        width: 130px;
+        padding: 15px 0;
+        font-size: 1.3rem;
+        color: white;
+        background: var(--primary-light);
+        cursor: pointer;
+        transition: all 0.1s linear;
+
+        &:hover{
+            background: rgb(0, 48, 179);
+        }
+    }
+}

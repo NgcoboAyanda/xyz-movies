@@ -6,9 +6,6 @@ import './Searchpage.scss' //stylesheet
 
 
 class SearchPage extends Component{
-    componentDidMount(){
-        console.log(this.props)
-    }
 
     renderSearchResults(){
         

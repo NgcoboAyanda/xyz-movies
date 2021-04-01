@@ -16,7 +16,7 @@ class Navbar extends Component {
                     <Searchbar/>
                     <ul className="nav-list">
                         <li className="nav-list-link">
-                            <Link to="/login">Login</Link>
+                            <Link to="/auth">Login</Link>
                         </li>
                         <li className="nav-list-link genre">
                             <a href="#" className="genre">Browse</a>

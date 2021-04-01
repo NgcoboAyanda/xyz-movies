@@ -13,8 +13,16 @@ import './index.scss'
 
 import reducers from './reducers'
 
+const firebaseKey = process.env.REACT_APP_FIREBASE_API_KEY
+
 const firebaseConfig = {
-    apiKey: ""
+    apiKey: firebaseKey,
+    authDomain: 'xyz-movies.firebaseapp.com',
+    databaseURL: 'https://xyz-movies.firebaseio.com',
+    projectId: 'xyz-movies',
+    storageBucket: 'xyz-movies.appspot.com',
+    appId: '1:361828942881:web:0ec3e18505610f03b3cf60'
+
 }
 firebase.initializeApp(firebaseConfig)
 
