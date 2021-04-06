@@ -1,14 +1,16 @@
 import React from 'react'
 
-const EmailBox = (props) => {
+const EmailBox = ({formState,stateProperty,type,borderColor,className,placeholder, updateInputBox}) => {
+
     return(
-        <div className="input username" style={ {border: `1px solid ${props.borderColor}`} }>
-            <input 
-                type={props.type}
-                value={props.email.value}
-                onChange={e=>props.updateInputBox(e,'email')} 
-                className={props.className}
-                placeholder={props.placeholder}
+        <div className="input username" style={ {border: `1px solid ${borderColor}`} }>
+            <input
+                autoComplete="on"
+                type='email'
+                value={formState[stateProperty].value}
+                onChange={e=>updateInputBox(e,formState,stateProperty)} 
+                className={className}
+                placeholder={placeholder}
             />
         </div>
     )

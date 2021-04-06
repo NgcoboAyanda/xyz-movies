@@ -4,11 +4,10 @@
     align-items: center;
     flex-direction: column;
     padding: 6% 0;
-
-    
-    div{
+ 
+    div{ //input box container
         height: 60px;
-        width: 85%;
+        width: 70%;
         margin-bottom: 6%;
         border-radius: 4px;
         overflow: none;
@@ -21,8 +20,9 @@
             height: 100%;
             width: 100%;
             border: none;
-            font-size: 1.3rem;
+            font-size: 1rem;
             background: white;
+            color: rgba(0, 0, 0, 0.849);
         }
 
         button{
@@ -35,17 +35,46 @@
             background: white;
         }
     }
-    .login-btn{
-        width: 130px;
-        padding: 15px 0;
-        font-size: 1.3rem;
-        color: white;
-        background: var(--primary-light);
-        cursor: pointer;
-        transition: all 0.1s linear;
 
-        &:hover{
-            background: rgb(0, 48, 179);
+    .actionBtnWrapper{
+        width: 100px;
+        height: 60px;
+        padding: 0;
+
+        .loading{
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            position: relative;
+            
+            .animation{
+                background: url('../SubmitBtn/load.gif');
+                background-repeat: no-repeat;
+                width: 70px;
+                height: 60px;
+                padding: 0;
+                position: absolute;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        .login-btn{
+            width: 100%;
+            height: 100%;
+            background: var(--primary-light);
+            font-size: 1.3rem;
+            color: white;
+            cursor: pointer;
+            transition: all 0.1s linear;
+    
+            &:hover{
+                border: 1px solid var(--secondary);
+            }
+
+            &:active{
+                transform: scale(0.95);
+            }
         }
     }
 }

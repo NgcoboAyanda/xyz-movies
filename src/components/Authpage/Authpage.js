@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 
 import LoginForm from './LoginForm/LoginForm.js'
 import SignupForm from './SignupForm/SignupForm.js'
+import ResetForm from './ResetForm/ResetForm.js'
 
 import './Authpage.scss'
 
@@ -11,6 +12,7 @@ class Authpage extends Component {
     renderForms({current}){ 
         if(current == 'login') return <LoginForm/> //if state.current is 'login' then return login component
         else if(current == 'signup') return <SignupForm/>
+        else if(current == 'resetpass') return <ResetForm/>
     }
 
     show(component){
@@ -27,9 +29,6 @@ class Authpage extends Component {
     render(){
         return(
             <main className="authpage">
-                <div className="authpage-info">
-                    This is the info box
-                </div>
                 <div className="authpage-form">
                     <div className="authpage-form-heading">
                         <span className={this.show('login')} onClick={e=>this.changeTo('login')} >Login</span>

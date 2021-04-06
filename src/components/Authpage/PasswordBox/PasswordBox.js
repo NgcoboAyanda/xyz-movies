@@ -2,10 +2,10 @@ import React from 'react'
 import { showPasswordIcon, hidePasswordIcon } from '../LoginForm/icons'
 
 
-const PasswordBox = (props) => {
+const PasswordBox = ({formState, borderColor, stateProperty, updateInputBox, showHidePass}) => {
 
     const renderInputType = ()=>{//changing input type to show password
-        const {show} = props.password //checking state of showpassword
+        const {show} = formState[stateProperty] //checking state of showpassword
         let inputType;
         if(show){
             inputType = 'text'
@@ -17,7 +17,7 @@ const PasswordBox = (props) => {
     }
 
     const renderShowPasswordIcon= ()=>{//rendering show/hide password icons
-        let {show} = props.password
+        let {show} = formState[stateProperty]
         let Icon;
         if(!show){
             Icon = showPasswordIcon 
@@ -30,17 +30,18 @@ const PasswordBox = (props) => {
 
 
     return(
-        <div className="input password" style={ {border: `1px solid ${props.borderColor}`} } >
+        <div className="input password" style={ {border: `1px solid ${borderColor}`} } >
             <input
-                value={props.password.value}
-                onChange={e=>props.updateInputBox(e,'password')} 
+                autoComplete="on"
+                value={formState[stateProperty].value}
+                onChange={e=>updateInputBox(e,formState, stateProperty)} 
                 type={renderInputType()}
                 className="password-input"
                 placeholder="Password"
             />
             <button 
                 className="toggle-password" 
-                onClick={e=>props.showHidePass(e)}>
+                onClick={e=>showHidePass(e,formState,stateProperty)}>
                     {renderShowPasswordIcon()}
             </button>
         </div>

@@ -20,14 +20,24 @@
 
     &-form{
         //border: 1px solid red;
-        width: 480px;
-        min-height: 500px;
+        width: 550px;
+        height: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         //background: red;
+
+        form{
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
         &-heading{
             display: flex;
             //background: var(--primary-dark);
-            font-size: 1.1rem;
+            font-size: 1.3rem;
             //color: white;
             border-bottom: 1px solid rgba(0, 108, 231, 0.096);
             padding: 0 10px;
@@ -37,15 +47,16 @@
                 text-align: center;
                 padding: 10px 0;
                 cursor: pointer;
+                color: rgba(0, 0, 0, 0.849);
 
                 &:hover:not(.selected){
-                    background: rgba(128, 128, 128, 0.171);
+                    background: rgba(128, 128, 128, 0.062);
                 }
             }
 
             .selected{
-                background: var(--primary-light);
-                color: white;
+                border-bottom: 3px dotted var(--secondary);
+                color: var(--secondary);
             }
         }
 
