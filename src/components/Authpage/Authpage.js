@@ -5,14 +5,15 @@ import SignupForm from './SignupForm/SignupForm.js'
 import ResetForm from './ResetForm/ResetForm.js'
 
 import './Authpage.scss'
+import { connect } from 'react-redux'
 
 class Authpage extends Component {
     state = {current: 'login'}//
 
     renderForms({current}){ 
-        if(current == 'login') return <LoginForm/> //if state.current is 'login' then return login component
-        else if(current == 'signup') return <SignupForm/>
-        else if(current == 'resetpass') return <ResetForm/>
+        if(current == 'login') return <LoginForm notifications={this.props.notifications}/> //if state.current is 'login' then return login component
+        else if(current == 'signup') return <SignupForm notifications={this.props.notifications} />
+        else if(current == 'resetpass') return <ResetForm notifications={this.props.notifications} />
     }
 
     show(component){
@@ -42,4 +43,11 @@ class Authpage extends Component {
     }
 }
 
-export default Authpage
+const mapStateToProps = state => {
+    const {notifications} = state
+    return {
+        notifications
+    }
+}
+
+export default connect(mapStateToProps)(Authpage)
