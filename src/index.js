@@ -25,6 +25,7 @@ const firebaseConfig = {
 
 }
 firebase.initializeApp(firebaseConfig)
+console.log(firebase.auth().currentUser)
 
 const Store = createStore(reducers, composeWithDevTools( applyMiddleware(thunk) )  );
 

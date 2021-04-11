@@ -5,7 +5,7 @@ import SubmitBtn from '../SubmitBtn/SubmitBtn'
 import EmailInput from '../EmailBox/EmailBox.js'
 import PasswordBox from '../PasswordBox/PasswordBox'
 
-import {signUp} from '../../../actions'
+import {NotifyError, signUp} from '../../../actions'
 
 
 class SignupForm extends Component {
@@ -27,6 +27,14 @@ class SignupForm extends Component {
         loading: false
     }
 
+    componentDidUpdate(prevProps){
+        const {notifications} = prevProps
+        const prevNotifId = Object.keys(notifications)[0]
+        const currentNotifId = Object.keys(this.props.notifications)[0]
+        if(prevNotifId !== currentNotifId){//checking if there is a new notification
+            this.setState({loading:false})//if there is a new notification, it means the request is complete and the app can stop loading
+        }
+    }
 
     updateInputBox=(e,formState,stateProperty)=>{//updating input box values in the state
         let inputCopy = formState[stateProperty]
@@ -45,12 +53,24 @@ class SignupForm extends Component {
     signUp=(e)=>{
         this.setState({loading:true})
         const {email,password1, password2} = this.state
-        if(email.value && password1.value){
-            console.log('both valid')
-            if(password1.value === password2.value){
-                console.log('both passwords the same')
-                this.props.signUp(email.value,password1.value)
+        if(email.value){//if email and password boxes are not empty
+            if(password1.value.length >= 6 && password2.value.length >= 6){//if both password boxes are valid
+                if(password1.value === password2.value){//if both passwords match
+                    this.props.signUp(email.value,password1.value)
+                }
+                else{//if passwords don't match
+                    this.props.NotifyError("Passwords don't match!")
+                }
             }
+            else if(password1.value && !password2.value){
+                this.props.NotifyError("Repeat password!")
+            }
+            else if(password1.value.length < 6 || password2.value.length < 6){
+                this.props.NotifyError("Password must be at least 6 characters!")
+            }
+        }
+        else{//if all input boxes are empty
+            this.props.NotifyError("Enter email!")
         }
         e.preventDefault()
     }
@@ -67,9 +87,6 @@ class SignupForm extends Component {
             )
         }
         else if(loading){// if app is loading it shows a loading animation
-            setTimeout(() => {
-                this.setState({loading:  false})
-            }, 3000);//stop load after 3secs
             return(
                 <div className="loading">
                     <div className="animation"></div>
@@ -95,6 +112,7 @@ class SignupForm extends Component {
                             borderColor='rgba(0,0,0,0.178)'
                             stateProperty='password1'
                             showHidePass={this.showHidePass}
+                            placeholder='Password'
                         />
                         <PasswordBox
                             formState={this.state}
@@ -102,6 +120,7 @@ class SignupForm extends Component {
                             borderColor='rgba(0,0,0,0.178)'
                             stateProperty='password2'
                             showHidePass={this.showHidePass}
+                            placeholder='Repeat password'
                         />
                         <div className="actionBtnWrapper">
                              {this.renderSignupBtn()}
@@ -111,4 +130,9 @@ class SignupForm extends Component {
     }   
 }
 
-export default connect(null,{signUp})(SignupForm)
+const mapDispatchToProps = {
+    signUp,
+    NotifyError
+}
+
+export default connect(null,mapDispatchToProps)(SignupForm)

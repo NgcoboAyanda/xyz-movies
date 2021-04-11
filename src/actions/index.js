@@ -24,14 +24,6 @@ export const LoginSuccess=(userId,email)=> async dispatch =>{ {//Login succesful
     })
 } }       
 
-
-export const PasswordResetSuccess=()=>{//Password Reset Successful
-    return{
-        type: 'PASSWORD_RESET',
-        payload: 'Password reset email has been sent, please check your email'
-    }
-}
-
 export const NotifySuccess = (msg)=>{
     const id =  uniqid()//notification id
     return {
@@ -57,7 +49,7 @@ export const Login = (email,password) => async (dispatch)=>{
         dispatch(LoginSuccess(uid,email))
     }
     else{// if the response has a code and message then it failed
-        const {code,message} = response
+        const {message} = response
         dispatch( NotifyError(message) )
     }
 }
@@ -73,21 +65,21 @@ export const signUp = ( email,password ) => async dispatch=>{
         dispatch(LoginSuccess(uid,email))
     }
     else{
-        console.log(response)
-        const {code, message} = response
-        dispatch(NotifyError(code,message))
+        const {message} = response
+        dispatch(NotifyError(message))
     }  
 }
 
 export const resetPassword = ( email )=> async dispatch=>{
-    const response = await firebase.auth().sendPasswordResetEmail(email)
-    .then(resp =>resp)
+    const response = await firebase.auth().sendPasswordResetEmail( email )
+    .then(resp => resp)
     .catch(err => err)
-    if(!response){
+    if(!response){//if there's no response it means email link was sent
         const msg = 'Password reset link has been sent to your email'
-        dispatch(NotifySuccess(msg))
+        dispatch( NotifySuccess(msg) )
     }
-    else if(response){
-        console.log(response)
+    else{
+        const {message} = response
+        dispatch( NotifyError(message) )
     }
 }

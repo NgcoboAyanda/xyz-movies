@@ -23,6 +23,15 @@ class LoginForm extends Component {
         loading: false
     }
 
+    componentDidUpdate(prevProps){
+        const {notifications} = prevProps
+        const prevNotifId = Object.keys(notifications)[0]
+        const currentNotifId = Object.keys(this.props.notifications)[0]
+        if(prevNotifId !== currentNotifId){//checking if there is a new notification
+            this.setState({loading:false})//if there is a new notification, it means the request is complete and the app can stop loading
+        }
+    }
+
     showHidePass=(e,state,stateProperty)=>{//function to toggle password visibity property in the state
         let passwState = state[stateProperty].show;
         const statePropCopy = {...state[stateProperty]}
@@ -58,9 +67,6 @@ class LoginForm extends Component {
             )
         }
         else if(loading){// if app is loading it shows a loading animation
-            setTimeout(() => {
-                this.setState({loading:  false})
-            }, 3000);//stop load after 3secs
             return(
                 <div className="loading">
                     <div className="animation"></div>
@@ -87,6 +93,7 @@ class LoginForm extends Component {
                         borderColor='rgba(0, 0, 0, 0.178)'
                         stateProperty='password'
                         showHidePass={this.showHidePass}
+                        placeholder="Password"
                     />
                     <div className="actionBtnWrapper">
                         {this.renderLoginBtn()}
@@ -96,10 +103,4 @@ class LoginForm extends Component {
     }
 }
 
-const mapStateToProps= state=>{
-    return{
-        errors: state.errors
-    }
-}
-
-export default connect(mapStateToProps,{ Login })(LoginForm);
+export default connect(null,{ Login })(LoginForm);

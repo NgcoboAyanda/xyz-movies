@@ -13,6 +13,15 @@ class ResetForm extends Component {
         loading: false
     }
 
+    componentDidUpdate(prevProps){
+        const {notifications} = prevProps
+        const prevNotifId = Object.keys(notifications)[0]
+        const currentNotifId = Object.keys(this.props.notifications)[0]
+        if(prevNotifId !== currentNotifId){//checking if there is a new notification
+            this.setState({loading:false})//if there is a new notification, it means the request is complete and the app can stop loading
+        }
+    }
+
     updateInputBox=(e,formState,stateProperty)=>{//updating input box values in the state
         let inputCopy = formState[stateProperty]
         inputCopy.value = e.target.value
@@ -20,11 +29,10 @@ class ResetForm extends Component {
     }
 
     ResetPassw=(e)=> {
+        this.setState({loading:true})
         const {email} = this.state
         if(email){
-            console.log(this.props)
-            const {resetPassword} = this.props
-            resetPassword(email.value)
+            this.props.resetPassword(email.value)
         }
         e.preventDefault()
     }
@@ -41,9 +49,6 @@ class ResetForm extends Component {
             )
         }
         else if(loading){// if app is loading it shows a loading animation
-            setTimeout(() => {
-                this.setState({loading:  false})
-            }, 3000);//stop load after 3secs
             return(
                 <div className="loading">
                     <div className="animation"></div>
@@ -71,5 +76,6 @@ class ResetForm extends Component {
         )
     }
 }
+
 
 export default connect(null,{resetPassword})(ResetForm)

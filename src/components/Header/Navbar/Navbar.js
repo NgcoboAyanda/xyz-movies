@@ -4,8 +4,25 @@ import {BrowserRouter as Router,Link,withRouter} from 'react-router-dom';
 import './Navbar.scss';
 import Searchbar from './Searchbar/Searchbar';
 import Menu from './Menu/Menu.js';
+import { connect } from 'react-redux';
 
 class Navbar extends Component {
+
+    renderLoginBtn=()=>{
+        const {loggedIn} = this.props.user
+        if(!loggedIn){//if user is not logged in
+            return(
+                <Link to="/auth">Login</Link>
+            )
+        }
+        else{
+            return(
+                <button className="btn">
+                    Logout
+                </button>
+            )
+        }
+    }
 
     render(){
         return(
@@ -16,7 +33,7 @@ class Navbar extends Component {
                     <Searchbar/>
                     <ul className="nav-list">
                         <li className="nav-list-link">
-                            <Link to="/auth">Login</Link>
+                            {this.renderLoginBtn()}
                         </li>
                         <li className="nav-list-link genre">
                             <a href="#" className="genre">Browse</a>
@@ -53,4 +70,10 @@ class Navbar extends Component {
     }
 }
 
-export default withRouter(Navbar);
+const mapStateToProps = state=>{
+    return {
+        user: state.user
+    }
+}
+
+export default  connect(mapStateToProps)( withRouter(Navbar) );

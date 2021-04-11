@@ -2,7 +2,7 @@ import React from 'react'
 import { showPasswordIcon, hidePasswordIcon } from '../LoginForm/icons'
 
 
-const PasswordBox = ({formState, borderColor, stateProperty, updateInputBox, showHidePass}) => {
+const PasswordBox = ({formState, borderColor, stateProperty, updateInputBox, showHidePass, placeholder}) => {
 
     const renderInputType = ()=>{//changing input type to show password
         const {show} = formState[stateProperty] //checking state of showpassword
@@ -37,7 +37,7 @@ const PasswordBox = ({formState, borderColor, stateProperty, updateInputBox, sho
                 onChange={e=>updateInputBox(e,formState, stateProperty)} 
                 type={renderInputType()}
                 className="password-input"
-                placeholder="Password"
+                placeholder={placeholder}
             />
             <button 
                 className="toggle-password" 
