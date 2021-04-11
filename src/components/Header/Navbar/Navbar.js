@@ -5,8 +5,13 @@ import './Navbar.scss';
 import Searchbar from './Searchbar/Searchbar';
 import Menu from './Menu/Menu.js';
 import { connect } from 'react-redux';
+import { LogOut } from '../../../actions';
 
 class Navbar extends Component {
+
+    logOut = ()=>{
+        this.props.LogOut()
+    }
 
     renderLoginBtn=()=>{
         const {loggedIn} = this.props.user
@@ -15,9 +20,9 @@ class Navbar extends Component {
                 <Link to="/auth">Login</Link>
             )
         }
-        else{
+        else{//if user is logged in
             return(
-                <button className="btn">
+                <button className="btn logout-btn" onClick={e=>this.logOut()}>
                     Logout
                 </button>
             )
@@ -76,4 +81,4 @@ const mapStateToProps = state=>{
     }
 }
 
-export default  connect(mapStateToProps)( withRouter(Navbar) );
+export default  connect(mapStateToProps, {LogOut})( withRouter(Navbar) );

@@ -6,7 +6,7 @@ import Homepage from './Homepage/Homepage.js';
 import './App.scss';
 import Footer from './Footer/Footer.js';
 import Authpage from './Authpage/Authpage.js';
-import Searchpage from './SearchPage/Searchpage.js'
+import Searchpage from './Main/SearchPage/Searchpage.js'
 import history from '../history.js'
 
 class App extends Component{
@@ -19,6 +19,7 @@ class App extends Component{
                                 <Route exact path="/" component={Homepage}/>
                                 <Route exact path="/search/:term" component={Searchpage}/>
                                 <Route exact path="/auth" component={Authpage}/>
+                                <Route exact path="/user/:id" component={Profile} />
                             </Switch>
                         <Footer/>
                     </div>

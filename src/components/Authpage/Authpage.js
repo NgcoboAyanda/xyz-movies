@@ -10,6 +10,10 @@ import { connect } from 'react-redux'
 class Authpage extends Component {
     state = {current: 'login'}//
 
+    componentDidMount(){
+        console.log(this.props.loggedIn)
+    }
+
     renderForms({current}){ 
         if(current == 'login') return <LoginForm notifications={this.props.notifications}/> //if state.current is 'login' then return login component
         else if(current == 'signup') return <SignupForm notifications={this.props.notifications} />
@@ -45,8 +49,10 @@ class Authpage extends Component {
 
 const mapStateToProps = state => {
     const {notifications} = state
+    const {loggedIn} = state.user
     return {
-        notifications
+        notifications,
+        loggedIn
     }
 }
 

@@ -24,6 +24,19 @@ export const LoginSuccess=(userId,email)=> async dispatch =>{ {//Login succesful
     })
 } }       
 
+export const LogoutSuccess=()=> async dispatch=>{
+    const msg = "You've been successfully logged out"
+    dispatch( NotifySuccess(msg) )
+
+    dispatch({
+        type: 'LOGOUT_SUCCESS',
+        payload: {
+            loggedIn: false
+        }
+    })
+}
+
+
 export const NotifySuccess = (msg)=>{
     const id =  uniqid()//notification id
     return {
@@ -82,4 +95,14 @@ export const resetPassword = ( email )=> async dispatch=>{
         const {message} = response
         dispatch( NotifyError(message) )
     }
+}
+
+export const LogOut = () => async dispatch => {
+    const response = await firebase.auth().signOut()
+    .then(resp => resp)
+    .catch(err => err)
+    if(!response){
+        dispatch( LogoutSuccess() )
+    }
+    
 }

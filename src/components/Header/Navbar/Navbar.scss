@@ -109,3 +109,21 @@
         }
     }
 }
+
+.btn{
+    font-size: 1.2rem;
+    padding: 7px 8px;
+    cursor: pointer;
+}
+
+.logout-btn{
+    color: var(--secondary-dim);
+    border: 2px solid var(--secondary-dim);
+    background: transparent;
+    transition: background 0.1s linear;
+
+    &:hover{
+        background: var(--secondary-dim);
+        color: white;
+    }
+}
