@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 
 import "./LoginForm.scss";
 import EmailBox from '../EmailBox/EmailBox.js'
-import {Login} from '../../../actions'
+import {Login} from '../../../../actions'
 
 import SubmitBtn from '../SubmitBtn/SubmitBtn.js';
 import PasswordBox from '../PasswordBox/PasswordBox';

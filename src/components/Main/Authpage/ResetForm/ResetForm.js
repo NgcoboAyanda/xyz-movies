@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import { resetPassword } from '../../../actions'
+import { resetPassword } from '../../../../actions'
 
 import EmailBox from '../EmailBox/EmailBox'
 import SubmitBtn from '../SubmitBtn/SubmitBtn'

@@ -5,7 +5,7 @@ import SubmitBtn from '../SubmitBtn/SubmitBtn'
 import EmailInput from '../EmailBox/EmailBox.js'
 import PasswordBox from '../PasswordBox/PasswordBox'
 
-import {NotifyError, signUp} from '../../../actions'
+import {NotifyError, signUp} from '../../../../actions'
 
 
 class SignupForm extends Component {
