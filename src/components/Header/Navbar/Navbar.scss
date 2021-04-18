@@ -117,13 +117,14 @@
 }
 
 .logout-btn{
-    color: var(--secondary-dim);
-    border: 2px solid var(--secondary-dim);
+    color: white;
+    border: 2px solid white;
     background: transparent;
     transition: background 0.1s linear;
 
     &:hover{
         background: var(--secondary-dim);
+        border-color: var(--secondary-dim);
         color: white;
     }
 }

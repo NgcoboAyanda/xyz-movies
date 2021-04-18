@@ -4,7 +4,7 @@
     align-items: center;
     flex-direction: column;
     padding: 6% 0;
- 
+    
     div{ //input box container
         height: 60px;
         width: 70%;
@@ -76,5 +76,25 @@
                 transform: scale(0.95);
             }
         }
+    }
+}
+
+@keyframes popup {
+    0%{
+        opacity: 0;
+        transform: translateY(5%);
+    }
+    100%{
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes popout{
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
     }
 }

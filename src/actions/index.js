@@ -14,7 +14,7 @@ export const Search = term => {
 export const LoginSuccess=(userId,email)=> async dispatch =>{ {//Login succesful
     const msg = 'You are now logged in'
     dispatch(NotifySuccess(msg))
-    history.push(`/user/${userId}`)
+    history.push(`/browse/all`)
     dispatch({
         type: 'LOGIN_SUCCESS',
         payload:{

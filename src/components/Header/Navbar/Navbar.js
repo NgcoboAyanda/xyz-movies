@@ -1,13 +1,19 @@
 import React, {Component} from 'react'
 import {BrowserRouter as Router,Link,withRouter} from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import './Navbar.scss';
 import Searchbar from './Searchbar/Searchbar';
 import Menu from './Menu/Menu.js';
-import { connect } from 'react-redux';
+import UserPhoto from './UserPhoto/UserPhoto.js'
+
 import { LogOut } from '../../../actions';
 
 class Navbar extends Component {
+
+    componentDidUpdate=()=>{
+        console.log(this.props)
+    }
 
     logOut = ()=>{
         this.props.LogOut()
@@ -16,9 +22,7 @@ class Navbar extends Component {
     renderLoginBtn=()=>{
         const {loggedIn} = this.props.user
         if(!loggedIn){//if user is not logged in
-            return(
-                <Link to="/auth">Login</Link>
-            )
+            return <Link to="/auth">Login</Link>
         }
         else{//if user is logged in
             return(
@@ -26,6 +30,13 @@ class Navbar extends Component {
                     Logout
                 </button>
             )
+        }
+    }
+
+    renderUserPhoto=()=>{
+        const {loggedIn,userId} = this.props.user
+        if(loggedIn){
+            return <UserPhoto id={userId} photo=""/>
         }
     }
 
@@ -37,6 +48,9 @@ class Navbar extends Component {
                     </div>
                     <Searchbar/>
                     <ul className="nav-list">
+                        <li className="nav-list-link userPhoto">
+                            {this.renderUserPhoto()}
+                        </li>
                         <li className="nav-list-link">
                             {this.renderLoginBtn()}
                         </li>

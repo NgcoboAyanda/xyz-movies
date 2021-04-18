@@ -23,6 +23,15 @@ class LoginForm extends Component {
         loading: false
     }
 
+    componentDidMount=()=>{
+        console.log(this.form,'aaah')
+        this.form.style.animation = 'popup 0.4s forwards linear;'
+    }
+
+    componentWillUnmount=()=>{
+        //this.form.style.animation = 'popout 0.4s forwards linear'
+    }
+
     componentDidUpdate(prevProps){
         const {notifications} = prevProps
         const prevNotifId = Object.keys(notifications)[0]
@@ -77,7 +86,7 @@ class LoginForm extends Component {
 
     render(){
         return(
-                <form className="login-page-form" autoComplete="on">
+                <form className="login-page-form" ref={ref=> this.form = ref} autoComplete="on">
                     <EmailBox //email input box 
                         stateProperty='email'
                         formState={this.state} 
