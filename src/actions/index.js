@@ -11,15 +11,17 @@ export const Search = term => {
     }
 }
 
-export const LoginSuccess=(userId,email)=> async dispatch =>{ {//Login succesful
+export const LoginSuccess=({uid,email,emailVerified,displayName,photoURL})=> async dispatch =>{ {//Login succesful
     const msg = 'You are now logged in'
     dispatch(NotifySuccess(msg))
-    history.push(`/browse/all`)
     dispatch({
         type: 'LOGIN_SUCCESS',
         payload:{
-            userId,
-            email
+            userId:uid,
+            email,
+            emailVerified,
+            displayName,
+            photoURL
         }
     })
 } }       
@@ -58,8 +60,7 @@ export const Login = (email,password) => async (dispatch)=>{
     .then(userDetails => userDetails.user )
     .catch(err=> err)
     if(!response.code){//if the response doesnt have code then it was successful
-        const {uid, email} = response
-        dispatch(LoginSuccess(uid,email))
+        dispatch( LoginSuccess(response) )
     }
     else{// if the response has a code and message then it failed
         const {message} = response
@@ -74,8 +75,8 @@ export const signUp = ( email,password ) => async dispatch=>{
     if(!response.code){//if the response doesnt have a code property then its successful
         const msg = 'Succesfully signed up'
         dispatch(NotifySuccess(msg))
-        const {uid, email} = firebase.auth().currentUser
-        dispatch(LoginSuccess(uid,email))
+        const user = firebase.auth().currentUser
+        dispatch(LoginSuccess(user) )
     }
     else{
         const {message} = response

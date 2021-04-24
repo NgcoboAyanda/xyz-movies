@@ -10,14 +10,11 @@ import { connect } from 'react-redux'
 class Authpage extends Component {
     state = {current: 'login'}//
 
-    componentDidMount(){
-        console.log(this.props.loggedIn)
-    }
-
-    renderForms({current}){ 
-        if(current == 'login') return <LoginForm notifications={this.props.notifications}/> //if state.current is 'login' then return login component
-        else if(current == 'signup') return <SignupForm notifications={this.props.notifications} />
-        else if(current == 'resetpass') return <ResetForm notifications={this.props.notifications} />
+    renderForms({current}){
+        const {notifications} = this.props 
+        if(current == 'login') return <LoginForm notifications={notifications}/> //if state.current is 'login' then return login component
+        else if(current == 'signup') return <SignupForm notifications={notifications} />
+        else if(current == 'resetpass') return <ResetForm notifications={notifications} />
     }
 
     show(component){

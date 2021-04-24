@@ -11,10 +11,6 @@ import { LogOut } from '../../../actions';
 
 class Navbar extends Component {
 
-    componentDidUpdate=()=>{
-        console.log(this.props)
-    }
-
     logOut = ()=>{
         this.props.LogOut()
     }
@@ -48,9 +44,7 @@ class Navbar extends Component {
                     </div>
                     <Searchbar/>
                     <ul className="nav-list">
-                        <li className="nav-list-link userPhoto">
-                            {this.renderUserPhoto()}
-                        </li>
+                        {this.renderUserPhoto()}
                         <li className="nav-list-link">
                             {this.renderLoginBtn()}
                         </li>

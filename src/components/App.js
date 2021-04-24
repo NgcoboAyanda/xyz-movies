@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import {Router,Route, Switch} from 'react-router-dom';
+import firebase from 'firebase'
+import 'firebase/auth'
+import 'firebase/analytics' //firebase analytics
 
 import Header from './Header/Header.js';
 import Homepage from './Main/Homepage/Homepage.js';
@@ -9,8 +12,15 @@ import Authpage from './Main/Authpage/Authpage.js';
 import Searchpage from './Main/SearchPage/Searchpage.js'
 import history from '../history.js'
 import Profilepage from './Main/Profilepage/Profilepage.js';
+import { LoginSuccess } from '../actions/index.js';
+import { connect } from 'react-redux';
 
 class App extends Component{
+    componentDidMount(){
+        const {LoginSuccess,checkSignIn} = this.props
+        checkSignIn(LoginSuccess)
+    }
+
     render(){
         return(
                 <Router history={history}>
@@ -29,4 +39,4 @@ class App extends Component{
     }
 }
 
-export default App;
+export default connect(null,{LoginSuccess})(App);

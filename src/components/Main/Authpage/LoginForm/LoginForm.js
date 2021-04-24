@@ -23,15 +23,6 @@ class LoginForm extends Component {
         loading: false
     }
 
-    componentDidMount=()=>{
-        console.log(this.form,'aaah')
-        this.form.style.animation = 'popup 0.4s forwards linear;'
-    }
-
-    componentWillUnmount=()=>{
-        //this.form.style.animation = 'popout 0.4s forwards linear'
-    }
-
     componentDidUpdate(prevProps){
         const {notifications} = prevProps
         const prevNotifId = Object.keys(notifications)[0]

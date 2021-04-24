@@ -3,10 +3,9 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
+import firebase from 'firebase'
+import 'firebase/auth'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import firebase from 'firebase/app' //firebase
-import 'firebase/analytics' //firebase analytics
-import 'firebase/auth' //firebase auth
 
 import App from './components/App'
 import './index.scss'
@@ -22,16 +21,21 @@ const firebaseConfig = {
     projectId: 'xyz-movies',
     storageBucket: 'xyz-movies.appspot.com',
     appId: '1:361828942881:web:0ec3e18505610f03b3cf60'
-
 }
+
 firebase.initializeApp(firebaseConfig)
-console.log(firebase.auth().currentUser)
+
+const checkSignIn = (dispatchFunc) => firebase.auth().onAuthStateChanged( user => {//checking if user is signed in
+    if(user){
+            dispatchFunc(user)
+    }
+} )
 
 const Store = createStore(reducers, composeWithDevTools( applyMiddleware(thunk) )  );
 
 render(
     <Provider store={Store}>
-        <App/>
+        <App checkSignIn={checkSignIn}/>
     </Provider>
     ,
     document.querySelector('#root')

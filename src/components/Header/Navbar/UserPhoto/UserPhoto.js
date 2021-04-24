@@ -16,11 +16,11 @@ const UserPhoto = ({photo, id}) =>{
     }
 
     return(
-        <>
+        <li className="nav-list-link userPhoto">
             <Link to={`/user/${id}`}>
                 {renderPhoto()}
             </Link>
-        </>
+        </li>
     )
 }
 
