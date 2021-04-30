@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { AuthReducer } from './AuthReducer.js'
+import { UserReducer } from './UserReducer.js'
 import { NotifReducer } from './NotifReducer.js'
 
 const searchReducer = (searchHistory=[],action)=> {
@@ -14,7 +14,7 @@ const searchReducer = (searchHistory=[],action)=> {
 export default combineReducers(
     {
         searchHistory: searchReducer,
-        user: AuthReducer,
+        user: UserReducer,
         notifications: NotifReducer
     }
 )

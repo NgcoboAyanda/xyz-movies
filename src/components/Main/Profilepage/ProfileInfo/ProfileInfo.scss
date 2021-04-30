@@ -1,0 +1,16 @@
+.profile-info-main{
+    display: flex;
+    justify-content: center;
+    padding: 60px 0;
+
+    &-content{
+        display: flex;
+        flex-direction: column;
+        width: 90%;
+        max-width: 567px;
+
+        .textBox{
+            margin-bottom: 40px;
+        }
+    }
+}

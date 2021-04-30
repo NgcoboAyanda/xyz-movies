@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component, useEffect, useState} from 'react'
 
 import LoginForm from './LoginForm/LoginForm.js'
 import SignupForm from './SignupForm/SignupForm.js'
@@ -6,6 +6,32 @@ import ResetForm from './ResetForm/ResetForm.js'
 
 import './Authpage.scss'
 import { connect } from 'react-redux'
+import history from '../../../history.js'
+
+const Redirect = ()=>{
+    const[count,setCount] = useState(4)
+
+    const redirect = ()=>{
+        if(count === 0){
+            history.push('/')
+        }
+    }
+
+    useEffect(()=>{
+        while (count > 0){
+            setTimeout(() => {
+                setCount(count-1)
+            }, 1000);
+            redirect()
+        }
+    }) 
+
+    return (
+        <>
+            <h1>You will be redirected soon in {count}</h1>
+        </>
+    )
+}
 
 class Authpage extends Component {
     state = {current: 'login'}//
@@ -27,10 +53,10 @@ class Authpage extends Component {
         this.setState({current: component})
     }
 
-
-    render(){
-        return(
-            <main className="authpage">
+    renderPage = () =>{
+        const {loggedIn} = this.props
+        if(!loggedIn){
+            return(
                 <div className="authpage-form">
                     <div className="authpage-form-heading">
                         <span className={this.show('login')} onClick={e=>this.changeTo('login')} >Login</span>
@@ -39,14 +65,24 @@ class Authpage extends Component {
                     </div>
                     {this.renderForms(this.state)}
                 </div>
+            )
+        }
+        else{
+            return <Redirect/>
+        }
+    }
+
+    render(){
+        return(
+            <main className="authpage">
+                {this.renderPage()}
             </main>
         )
     }
 }
 
 const mapStateToProps = state => {
-    const {notifications} = state
-    const {loggedIn} = state.user
+    const {notifications,user:{loggedIn}} = state
     return {
         notifications,
         loggedIn

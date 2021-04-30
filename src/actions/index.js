@@ -56,54 +56,81 @@ export const NotifyError = (msg)=>{
 }
 
 export const Login = (email,password) => async (dispatch)=>{
-    const response = await firebase.auth().signInWithEmailAndPassword(email, password)
-    .then(userDetails => userDetails.user )
-    .catch(err=> err)
-    if(!response.code){//if the response doesnt have code then it was successful
-        dispatch( LoginSuccess(response) )
-    }
-    else{// if the response has a code and message then it failed
-        const {message} = response
-        dispatch( NotifyError(message) )
-    }
+    await firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((response)=> {
+        dispatch( LoginSuccess(response.user) )
+    }) 
+    .catch(err=> dispatch( NotifyError(err.message) ))
 }
 
 export const signUp = ( email,password ) => async dispatch=>{
-    const response = await firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then(userDetails => userDetails)
-    .catch(err=> err)
-    if(!response.code){//if the response doesnt have a code property then its successful
-        const msg = 'Succesfully signed up'
-        dispatch(NotifySuccess(msg))
-        const user = firebase.auth().currentUser
-        dispatch(LoginSuccess(user) )
-    }
-    else{
-        const {message} = response
-        dispatch(NotifyError(message))
-    }  
+    await firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(user => {
+        dispatch( NotifySuccess('Successfully signed up, you will be logged in shortly') )
+        dispatch( LoginSuccess(user) )
+    })
+    .catch(err=> dispatch( NotifyError(err.message) ))
 }
 
 export const resetPassword = ( email )=> async dispatch=>{
-    const response = await firebase.auth().sendPasswordResetEmail( email )
-    .then(resp => resp)
-    .catch(err => err)
-    if(!response){//if there's no response it means email link was sent
-        const msg = 'Password reset link has been sent to your email'
-        dispatch( NotifySuccess(msg) )
-    }
-    else{
-        const {message} = response
-        dispatch( NotifyError(message) )
-    }
+    await firebase.auth().sendPasswordResetEmail( email )
+    .then(() => {
+        dispatch( NotifySuccess('Password reset link has been sent to your email') )
+    })
+    .catch(err => dispatch( NotifyError(err.message) ))
 }
 
 export const LogOut = () => async dispatch => {
-    const response = await firebase.auth().signOut()
-    .then(resp => resp)
-    .catch(err => err)
-    if(!response){
-        dispatch( LogoutSuccess() )
-    }
-    
+    await firebase.auth().signOut()
+    .then(() => dispatch( LogoutSuccess() ))
+    .catch(err => dispatch( NotifyError(err.message) ))
+}
+
+
+export const updateDisplayName = (newDisplayName) => async dispatch => {
+    const user = firebase.auth().currentUser
+    await user.updateProfile({displayName: newDisplayName})
+    .then(()=>{
+        dispatch(
+            NotifySuccess(`Display name has been successfully changed to ${newDisplayName}`)
+        )
+        dispatch(
+            {
+                type:'UPDATE_DISPLAY_NAME',
+                payload: {
+                    displayName: newDisplayName
+                }
+            }
+        )
+    })
+    .catch(err=>NotifyError(err.message))
+}
+
+export const updatePhotoURL = (newPhotoURL) => async dispatch => {
+    const user = firebase.auth().currentUser
+    await user.updateProfile({photoURL:newPhotoURL})
+    .then((response)=>{
+        console.log(response.status)
+        dispatch(
+            NotifySuccess(`PhotoURL has been successfully changed`)
+        )
+        dispatch(
+            {
+                type:'UPDATE_PHOTO',
+                payload: {
+                    photoURL:newPhotoURL
+                }
+            }
+        )
+    })
+    .catch(err=>dispatch( NotifyError(err.message) ) )
+}
+
+export const verifyEmail = () => async dispatch =>{
+    const user = firebase.auth().currentUser
+    await user.sendEmailVerification()
+    .then(()=>{
+        dispatch( NotifySuccess('Verification Email has been sent, please check your inbox') )
+    })
+    .catch(err=> dispatch( NotifyError(err.message) ))
 }

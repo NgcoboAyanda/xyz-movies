@@ -34,7 +34,7 @@ class Profilepage extends Component {
 
     renderProfileSettings = () => {
         const {current} = this.state
-        if(current === 'profInfo') return <ProfileInfo/>
+        if(current === 'profInfo') return <ProfileInfo notifs={this.props.notifications}/>
         else if(current === 'accSett') return <AccountSettings/>
         else if(current === 'delAcc') return <DeleteAccount/>
     }
@@ -88,8 +88,8 @@ class Profilepage extends Component {
 }
 
 const mapStateToProps = state => {
-    const {user} = state
-    return {user}
+    const {user,notifications} = state
+    return {user,notifications}
 }
 
 export default connect(mapStateToProps)(Profilepage)

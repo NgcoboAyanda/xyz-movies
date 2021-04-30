@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react'
 
-import './TextBox.scss'
-import {discardBtn, doneIcon, editIcon} from './icons'
+import './EmailBox.scss'
+import {doneIcon, editIcon, discardBtn} from './icons'
 
-const TextBox = ({label,notifs,submit,defValue,showError}) => {
+const EmailBox = ({label,notifs,submit,defValue,showError,verified}) => {
     const[value,setValue] = useState('')
     const[editable,setEdit] = useState(false)
     const[loading,setLoad] = useState(false)
@@ -55,7 +55,7 @@ const TextBox = ({label,notifs,submit,defValue,showError}) => {
             setValue(defValue)
         }
     }
-    
+
     const discardEdit = () => {
         setEdit(!editable)
         setValue(defValue)
@@ -64,18 +64,18 @@ const TextBox = ({label,notifs,submit,defValue,showError}) => {
     const renderEditBtn = ()=>{
         if(!editable && !loading){
             return(
-                <button className="editBtn" onClick={e=>{setEdit(!editable)}}>
-                    {editIcon}
-                </button>
+                    <button className="editBtn" onClick={()=>{setEdit(!editable)}}>
+                        {editIcon}
+                    </button>
             )
         }
         else if(editable && !loading){
             return(
                 <>
-                    <button className="submitEditBtn" onClick={e=>submitEdit()}>
+                    <button className="submitEditBtn" onClick={()=>submitEdit()}>
                         {doneIcon}
                     </button>
-                    <button className="discardBtn" onClick={e=>discardEdit()}>
+                    <button className="discardBtn" onClick={()=>discardEdit()}>
                         {discardBtn}
                     </button>
                 </>
@@ -86,25 +86,50 @@ const TextBox = ({label,notifs,submit,defValue,showError}) => {
         }
     }
 
-    return(
-        <div className="textBox">
-            <div className="textBox-label" ref={ref=>inputLabel=ref}>{label}</div>
-            <div className="textBox-input-wrapper">
-                <input type="text" 
-                    className="textBox-input"
-                    ref={ref=>inputBox=ref}
-                    value = {value}
-                    onChange={e=>setValue(e.target.value)} 
-                    onFocus={e=>onInputFocus(e)} 
-                    onBlur={e=>onInputBlur(e)}
-                    disabled={enableDisable()}
-                />
-                <div className="btn-wrapper">
-                    {renderEditBtn()}
+    const renderEmailVerificationStatus=()=>{
+        if(verified){
+            return(
+                <div className="verifiedBox verified">
+                    verified
                 </div>
+            )
+        }
+        else if(!value){
+            return null
+        }
+        else{
+            return(
+                <div className="verifiedBox unverified">
+                    unverified
+                </div>
+            )
+        }
+    }
+
+    return( 
+        <>
+            <div className="EmailBox">
+                <div className="EmailBox-label" ref={ref=>inputLabel=ref}>
+                    {label}
+                </div>
+                <div className="EmailBox-input-wrapper">
+                    <input type="email" 
+                        className="EmailBox-input"
+                        ref={ref=>inputBox=ref}
+                        value = {value}
+                        onChange={e=>setValue(e.target.value)} 
+                        onFocus={e=>onInputFocus(e)} 
+                        onBlur={e=>onInputBlur(e)}
+                        disabled={enableDisable()}
+                    />
+                    <div className="btn-wrapper">
+                        {renderEditBtn()}
+                    </div>
+                </div>
+                {renderEmailVerificationStatus()}
             </div>
-        </div>
+        </>
     )
 } 
 
-export default TextBox
+export default EmailBox

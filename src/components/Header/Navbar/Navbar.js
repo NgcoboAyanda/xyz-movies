@@ -30,9 +30,9 @@ class Navbar extends Component {
     }
 
     renderUserPhoto=()=>{
-        const {loggedIn,userId} = this.props.user
+        const {loggedIn,userId,photoURL} = this.props.user
         if(loggedIn){
-            return <UserPhoto id={userId} photo=""/>
+            return <UserPhoto id={userId} photo={photoURL}/>
         }
     }
 
