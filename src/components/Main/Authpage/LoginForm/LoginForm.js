@@ -55,25 +55,6 @@ class LoginForm extends Component {
         this.setState({[stateProperty]: inputCopy})
     }
 
-    renderLoginBtn=()=>{
-        const {loading} = this.state
-        if(!loading){//if the app is not loading, it shows the button
-            return (
-                <SubmitBtn 
-                    text="Login" 
-                    onSubmit={this.Login}
-                    loading={this.state.loading}
-                />
-            )
-        }
-        else if(loading){// if app is loading it shows a loading animation
-            return(
-                <div className="loading">
-                    <div className="animation"></div>
-                </div>
-            )
-        }
-    }
 
     render(){
         return(
@@ -96,7 +77,11 @@ class LoginForm extends Component {
                         placeholder="Password"
                     />
                     <div className="actionBtnWrapper">
-                        {this.renderLoginBtn()}
+                        <SubmitBtn 
+                            text="Login" 
+                            onSubmit={this.Login}
+                            loading={this.state.loading}
+                        />
                     </div>
                 </form>
         )

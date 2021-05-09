@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './DeleteAccount.scss'
+import './Delete.scss'
 
 const DeleteAccount = () => {
     return(

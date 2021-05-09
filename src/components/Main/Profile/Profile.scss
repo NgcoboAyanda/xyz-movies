@@ -87,6 +87,10 @@
         .profile-settings-wrapper{
             flex: 5;
             border-left:1px solid var(--border-color-light) ;
+
+            h2{
+                display: none;
+            }
         }
     }
 }

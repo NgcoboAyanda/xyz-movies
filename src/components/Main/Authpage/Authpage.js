@@ -11,24 +11,22 @@ import history from '../../../history.js'
 const Redirect = ()=>{
     const[count,setCount] = useState(4)
 
-    const redirect = ()=>{
-        if(count === 0){
-            history.push('/')
-        }
-    }
-
     useEffect(()=>{
-        while (count > 0){
-            setTimeout(() => {
-                setCount(count-1)
-            }, 1000);
-            redirect()
+        if(count>0){
+            setTimeout(()=>{
+                let newCount = count-1
+                setCount(newCount)
+            },
+            1000)
+        }
+        else{
+            history.push('/')
         }
     }) 
 
     return (
         <>
-            <h1>You will be redirected soon in {count}</h1>
+            <h1>You will be redirected in {count}</h1>
         </>
     )
 }

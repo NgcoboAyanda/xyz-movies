@@ -36,26 +36,6 @@ class ResetForm extends Component {
         }
         e.preventDefault()
     }
-
-    renderResetBtn=()=>{
-        const {loading} = this.state
-        if(!loading){//if the app is not loading, it shows the button
-            return (
-                <SubmitBtn 
-                    text="Reset" 
-                    onSubmit={this.ResetPassw}
-                    loading={this.state.loading}
-                />
-            )
-        }
-        else if(loading){// if app is loading it shows a loading animation
-            return(
-                <div className="loading">
-                    <div className="animation"></div>
-                </div>
-            )
-        }
-    }
      
     render(){
         return(
@@ -69,7 +49,11 @@ class ResetForm extends Component {
                     borderColor='rgba(0,0,0,0.178)'
                 />
                 <div className="actionBtnWrapper">
-                    {this.renderResetBtn()}
+                    <SubmitBtn 
+                        text="Reset" 
+                        onSubmit={this.ResetPassw}
+                        loading={this.state.loading}
+                    />
                 </div>
                 
             </form>

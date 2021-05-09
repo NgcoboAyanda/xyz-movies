@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react'
 import './EmailBox.scss'
 import {doneIcon, editIcon, discardBtn} from './icons'
 
-const EmailBox = ({label,notifs,submit,defValue,showError,verified}) => {
+const EmailBox = ({label,notifs,submit,defValue,showError,verified,allowEdit}) => {
     const[value,setValue] = useState('')
     const[editable,setEdit] = useState(false)
     const[loading,setLoad] = useState(false)
@@ -106,6 +106,17 @@ const EmailBox = ({label,notifs,submit,defValue,showError,verified}) => {
         }
     }
 
+    const renderEditBtnWrapper =()=>{
+        if(allowEdit){
+            return (
+                <div className="btn-wrapper">
+                    {renderEditBtn()}
+                </div>
+            )
+        }
+        else return null
+    }
+
     return( 
         <>
             <div className="EmailBox">
@@ -122,9 +133,7 @@ const EmailBox = ({label,notifs,submit,defValue,showError,verified}) => {
                         onBlur={e=>onInputBlur(e)}
                         disabled={enableDisable()}
                     />
-                    <div className="btn-wrapper">
-                        {renderEditBtn()}
-                    </div>
+                    {renderEditBtnWrapper()}
                 </div>
                 {renderEmailVerificationStatus()}
             </div>

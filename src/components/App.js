@@ -11,7 +11,7 @@ import Footer from './Footer/Footer.js';
 import Authpage from './Main/Authpage/Authpage.js';
 import Searchpage from './Main/SearchPage/Searchpage.js'
 import history from '../history.js'
-import Profilepage from './Main/Profilepage/Profilepage.js';
+import Profile from './Main/Profile/Profile.js';
 import { LoginSuccess } from '../actions/index.js';
 import { connect } from 'react-redux';
 
@@ -30,7 +30,7 @@ class App extends Component{
                                 <Route exact path="/" component={Homepage}/>
                                 <Route exact path="/search/:term" component={Searchpage}/>
                                 <Route exact path="/auth" component={Authpage}/>
-                                <Route exact path="/user/:id" component={Profilepage} />
+                                <Route exact path="/profile" component={Profile} />
                             </Switch>
                         <Footer/>
                     </div>

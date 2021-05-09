@@ -3,12 +3,13 @@ import React, {useState, useEffect} from 'react'
 import './TextBox.scss'
 import {discardBtn, doneIcon, editIcon} from './icons'
 
-const TextBox = ({label,notifs,submit,defValue,showError}) => {
+const TextBox = ({label, notifs, submit, defValue, showError, allowEdit}) => {
     const[value,setValue] = useState('')
     const[editable,setEdit] = useState(false)
     const[loading,setLoad] = useState(false)
 
     useEffect( () => {
+            console.log(allowEdit)
             setLoad(false)
             setEdit(false)
         },
@@ -86,6 +87,17 @@ const TextBox = ({label,notifs,submit,defValue,showError}) => {
         }
     }
 
+    const renderEditBtnWrapper =()=>{
+        if(allowEdit){
+            return (
+                <div className="btn-wrapper">
+                    {renderEditBtn()}
+                </div>
+            )
+        }
+        else return null
+    }
+
     return(
         <div className="textBox">
             <div className="textBox-label" ref={ref=>inputLabel=ref}>{label}</div>
@@ -99,9 +111,7 @@ const TextBox = ({label,notifs,submit,defValue,showError}) => {
                     onBlur={e=>onInputBlur(e)}
                     disabled={enableDisable()}
                 />
-                <div className="btn-wrapper">
-                    {renderEditBtn()}
-                </div>
+                {renderEditBtnWrapper()}
             </div>
         </div>
     )

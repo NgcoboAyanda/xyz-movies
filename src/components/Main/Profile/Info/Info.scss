@@ -1,11 +1,21 @@
 .profile-info-main{
     display: flex;
     justify-content: center;
-    padding: 60px 0;
+    //padding: 60px 0;
+    position: relative;
+    height: 100%;
+
+    .logged-out{
+        position: absolute;
+        font-size: 2rem;
+        top: 50%;
+        transform: translateY(-50%);
+    }
 
     &-content{
         display: flex;
         flex-direction: column;
+        padding: 60px 0;
         width: 90%;
         max-width: 567px;
 
@@ -14,3 +24,4 @@
         }
     }
 }
+

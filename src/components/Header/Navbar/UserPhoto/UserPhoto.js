@@ -17,7 +17,7 @@ const UserPhoto = ({photo, id}) =>{
 
     return(
         <li className="nav-list-link userPhoto">
-            <Link to={`/user/${id}`}>
+            <Link to={"/profile"}>
                 {renderPhoto()}
             </Link>
         </li>

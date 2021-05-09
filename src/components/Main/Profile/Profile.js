@@ -4,20 +4,14 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 
 import picIcon from '../../Header/Navbar/UserPhoto/picIcon'
-import './Profilepage.scss'
-import ProfileInfo from './ProfileInfo/ProfileInfo'
-import AccountSettings from './AccountSettings/AccountSettings'
-import DeleteAccount from './DeleteAccount/DeleteAccount'
+import './Profile.scss'
+import Info from './Info/Info.js'
+import Settings from './Settings/Settings.js'
+import Delete from './Delete/Delete.js'
 
 
-class Profilepage extends Component {
-    state = {current:'profInfo'}
-
-    componentDidMount=()=>{
-        console.log(this.props)
-        //const { user:{displayName,emailVerified} } = this.props
-        //console.log(displayName,emailVerified)
-    }
+class Profile extends Component {
+    state = {current:'accSett'}
 
     renderUsername=()=>{
         const {user: {displayName}} = this.props
@@ -34,9 +28,10 @@ class Profilepage extends Component {
 
     renderProfileSettings = () => {
         const {current} = this.state
-        if(current === 'profInfo') return <ProfileInfo notifs={this.props.notifications}/>
-        else if(current === 'accSett') return <AccountSettings/>
-        else if(current === 'delAcc') return <DeleteAccount/>
+        const {notifications} = this.props
+        if(current === 'profInfo') return <Info notifs={notifications}/>
+        else if(current === 'accSett') return <Settings notifs={notifications}/>
+        else if(current === 'delAcc') return <Delete notifs={notifications}/>
     }
 
     renderProfilePhoto = () => {
@@ -92,4 +87,4 @@ const mapStateToProps = state => {
     return {user,notifications}
 }
 
-export default connect(mapStateToProps)(Profilepage)
+export default connect(mapStateToProps)(Profile)

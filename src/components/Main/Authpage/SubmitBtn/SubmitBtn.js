@@ -1,16 +1,24 @@
 import React from 'react'
 
-const SubmitBtn = (props)=>{
-    const loading = props.loading
+import gif from './load.gif'
+
+const SubmitBtn = ({text, loading, onSubmit})=>{
+
+    const renderLoading=()=>{
+        if(loading){
+            return <img src={gif} />
+        }
+        else return text
+    }
 
 
     return(
         <>
             <button
-                onClick={e=>props.onSubmit(e)}
+                onClick={e=>onSubmit(e)}
                 type="submit" 
                 className="btn login-btn">
-                {props.text}
+                {renderLoading()}
             </button>
         </>
     )

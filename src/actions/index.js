@@ -134,3 +134,14 @@ export const verifyEmail = () => async dispatch =>{
     })
     .catch(err=> dispatch( NotifyError(err.message) ))
 }
+
+export const changePassword = newPassword => async dispatch => {
+    const user = await firebase.auth().currentUser
+    await user.updatePassword(newPassword)
+    .then(()=>{
+        dispatch(NotifySuccess('Password has been successfully changed!'))
+    })
+    .catch(err => {
+        dispatch(NotifyError(err.message))
+    })
+}
