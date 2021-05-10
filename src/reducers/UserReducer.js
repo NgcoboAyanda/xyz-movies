@@ -12,6 +12,9 @@ export const UserReducer = (user = {loggedIn:false}, action) => {
         case 'UPDATE_PHOTO':
             const {photoURL} = action.payload
             return {...user,photoURL}
+        case 'UPDATE_EMAIL':
+            const {email} = action.payload
+            return {...user,email}
         default:
             return user
     }

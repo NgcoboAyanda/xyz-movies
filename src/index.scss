@@ -35,6 +35,12 @@ a {
 
 button {
     border: none;
+
+    transition: transform 0.05s linear;
+
+            &:active{
+                transform: scale(0.95);
+            }
 }
 
 /* clears the 'X' from Chrome */

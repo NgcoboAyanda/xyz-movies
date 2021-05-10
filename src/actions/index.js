@@ -135,13 +135,56 @@ export const verifyEmail = () => async dispatch =>{
     .catch(err=> dispatch( NotifyError(err.message) ))
 }
 
-export const changePassword = newPassword => async dispatch => {
+export const changePassword = (email, oldPass,newPassword) => async dispatch => {
     const user = await firebase.auth().currentUser
-    await user.updatePassword(newPassword)
+    const updatePass = async () => await user.updatePassword(newPassword)
     .then(()=>{
         dispatch(NotifySuccess('Password has been successfully changed!'))
     })
     .catch(err => {
         dispatch(NotifyError(err.message))
     })
+    dispatch(reAuthenticate(email,oldPass,updatePass))
 }
+
+export const deleteAccount = (email, password) => async dispatch => {
+    const user = await firebase.auth().currentUser
+    const deleteAcc = async () => {
+        await user.delete()
+        .then(()=>{
+            dispatch(NotifySuccess('Account successfully deleted!'))
+            setTimeout(() => {
+               dispatch(LogoutSuccess()) 
+            }, 2000);
+        })
+        .catch(err => dispatch(NotifyError(err.message)))
+    }
+    dispatch(reAuthenticate(email, password,deleteAcc))
+}
+
+export const updateEmail = (oldEmail, password, newEmail) => async dispatch => {
+    const user = await firebase.auth().currentUser
+    const update = async () => {
+        await user.updateEmail(newEmail)
+        .then(()=>{
+            dispatch(NotifySuccess('Email was successfully changed'))
+            dispatch ({
+                type: 'UPDATE_EMAIL',
+                payload: {email: newEmail}
+            })
+        })
+        .catch(err=>{
+            dispatch(NotifyError(err.message))
+        })
+    }
+    dispatch(reAuthenticate(oldEmail, password, update))
+}
+
+export const reAuthenticate = (email,password, my_function) => async dispatch =>{
+    const user = await firebase.auth().currentUser
+    const credential = firebase.auth.EmailAuthProvider.credential(email,password)
+    await user.reauthenticateWithCredential(credential)
+    .then(()=> dispatch(my_function))
+    .catch(err=> dispatch(NotifyError(err.message)))
+}
+

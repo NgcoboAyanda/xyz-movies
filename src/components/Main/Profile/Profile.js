@@ -11,7 +11,7 @@ import Delete from './Delete/Delete.js'
 
 
 class Profile extends Component {
-    state = {current:'accSett'}
+    state = {current:'Info'}
 
     renderUsername=()=>{
         const {user: {displayName}} = this.props
@@ -29,8 +29,8 @@ class Profile extends Component {
     renderProfileSettings = () => {
         const {current} = this.state
         const {notifications} = this.props
-        if(current === 'profInfo') return <Info notifs={notifications}/>
-        else if(current === 'accSett') return <Settings notifs={notifications}/>
+        if(current === 'Info') return <Info notifs={notifications}/>
+        else if(current === 'Sett') return <Settings notifs={notifications}/>
         else if(current === 'delAcc') return <Delete notifs={notifications}/>
     }
 
@@ -57,13 +57,13 @@ class Profile extends Component {
                             </div>
                             <div className="profile-settings-nav">
                                 <div 
-                                    className={`profile-settings-nav-link ${this.renderActiveLinkClass('profInfo')}`}
-                                    onClick={e=>this.selectLink('profInfo')}>
+                                    className={`profile-settings-nav-link ${this.renderActiveLinkClass('Info')}`}
+                                    onClick={e=>this.selectLink('Info')}>
                                         Profile information
                                 </div>
                                 <div 
-                                    className={`profile-settings-nav-link ${this.renderActiveLinkClass('accSett')}`}
-                                    onClick={e=>this.selectLink('accSett')}>
+                                    className={`profile-settings-nav-link ${this.renderActiveLinkClass('Sett')}`}
+                                    onClick={e=>this.selectLink('Sett')}>
                                         Account settings
                                 </div>
                                 <div className={`profile-settings-nav-link ${this.renderActiveLinkClass('delAcc')}`}

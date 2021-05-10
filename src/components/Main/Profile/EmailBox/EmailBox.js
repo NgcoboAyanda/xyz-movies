@@ -10,7 +10,13 @@ const EmailBox = ({label,notifs,submit,defValue,showError,verified,allowEdit}) =
 
     useEffect( () => {
             setLoad(false)
-            setEdit(false)
+            if(notifs){
+                const notifID = Object.keys(notifs)[0]
+                const {type} = notifs[notifID]
+                if(type === "success"){
+                    setEdit(false)
+                }
+            }
         },
         [notifs]
     )

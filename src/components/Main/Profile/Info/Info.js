@@ -1,14 +1,25 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
-import { NotifyError, updateDisplayName, updatePhotoURL } from '../../../../actions'
+import { NotifyError, updateDisplayName, updateEmail, updatePhotoURL } from '../../../../actions'
 import EmailBox from '../EmailBox/EmailBox'
+import PasswBox from '../PasswBox/PasswBox'
 import TextBox from '../TextBox/TextBox'
 import VerifyEmailBtn from '../VerifyEmailBtn/VerifyEmailBtn'
 
 import './Info.scss'
 
 
-const ProfileInfo = ({ notifs,NotifyError, defDisplayName,updateDisplayName, defPhotoURL,updatePhotoURL, defEmail,emailVerified, loggedIn})=> {
+const ProfileInfo = ({ notifs,NotifyError, defDisplayName,updateDisplayName, defPhotoURL,updatePhotoURL, updateEmail, defEmail,emailVerified, loggedIn})=> {
+    const[password,setPassword] = useState('')
+
+    const submitUpdateEmail = (newEmail) => {
+        if(password){
+            updateEmail(defEmail, password, newEmail)
+        }
+        else{
+            NotifyError('Password is required to update email')
+        }
+    }
 
     if(loggedIn){
         return(
@@ -30,11 +41,21 @@ const ProfileInfo = ({ notifs,NotifyError, defDisplayName,updateDisplayName, def
                         showError={NotifyError}
                         allowEdit={true}
                     />
+                    <div className="password password-current">
+                        <PasswBox
+                            notifs={notifs}
+                            label="Current Password"
+                            defValue={password}
+                            onChange={setPassword}
+                            showError={NotifyError}
+                            allowEdit={true}
+                        />
+                    </div>
                     <EmailBox
                         notifs={notifs}
                         label="Email"
                         defValue={defEmail}
-                        submit={console.log}
+                        submit={submitUpdateEmail}
                         showError={NotifyError}
                         verified={emailVerified}
                         allowEdit={true}
@@ -63,4 +84,4 @@ const mapStateToProps = state => {
         }
 }
 
-export default connect(mapStateToProps,{updateDisplayName,updatePhotoURL,NotifyError})(ProfileInfo)
+export default connect(mapStateToProps,{updateDisplayName,updatePhotoURL, updateEmail, NotifyError})(ProfileInfo)
