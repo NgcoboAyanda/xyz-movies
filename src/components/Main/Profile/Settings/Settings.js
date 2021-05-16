@@ -6,7 +6,7 @@ import PasswBox from '../PasswBox/PasswBox'
 import SubmitBtn from './SubmitBtn/SubmitBtn.js'
 import './Settings.scss'
 
-const AccountSettings = ({notifs, NotifyError, changePassword, email}) => {
+const AccountSettings = ({notifs, NotifyError, changePassword, email, loggedIn}) => {
     const[password1,setPass1] = useState('')
     const[password2,setPass2] = useState('')
     const[oldPassword, setOldPassw] = useState('')
@@ -34,6 +34,14 @@ const AccountSettings = ({notifs, NotifyError, changePassword, email}) => {
         else{
             NotifyError('Passwords must be valid')
         }
+    }
+
+    if (!loggedIn){
+        return(
+            <div className="profile-info-main">
+                <div className="logged-out">User is logged out</div>
+            </div>
+        )
     }
     
     return(

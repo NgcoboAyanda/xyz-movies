@@ -9,9 +9,14 @@ const TextBox = ({label, notifs, submit, defValue, showError, allowEdit}) => {
     const[loading,setLoad] = useState(false)
 
     useEffect( () => {
-            console.log(allowEdit)
             setLoad(false)
-            setEdit(false)
+            if(notifs){
+                const notifID = Object.keys(notifs)[0]
+                const {type} = notifs[notifID]
+                if(type === "success"){
+                    setEdit(false)
+                }
+            }
         },
         [notifs]
     )

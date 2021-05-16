@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { deleteAccount, NotifyError, reAuthenticate } from '../../../../actions'
+import { deleteAccount, NotifyError } from '../../../../actions'
 import PasswBox from '../PasswBox/PasswBox'
 
 import './Delete.scss'
 
-const DeleteAccount = ({deleteAccount, notifs, NotifyError, email}) => {
+const DeleteAccount = ({deleteAccount, notifs, NotifyError, email, loggedIn}) => {
     const[password,setPassword] = useState('')
 
     const submitDelete = () =>{
@@ -13,6 +13,14 @@ const DeleteAccount = ({deleteAccount, notifs, NotifyError, email}) => {
         if(confirmation){
             deleteAccount(email,password)
         }
+    }
+
+    if (!loggedIn){
+        return(
+            <div className="profile-info-main">
+                <div className="logged-out">User is logged out</div>
+            </div>
+        )
     }
 
     return(
@@ -42,8 +50,8 @@ const DeleteAccount = ({deleteAccount, notifs, NotifyError, email}) => {
 }
 
 const mapStateToProps = state => {
-    const { notifications, user:{email}} = state
-    return {notifs: notifications, email}
+    const { notifications, user:{email, loggedIn}} = state
+    return {notifs: notifications, email, loggedIn}
 }
 
 const mapDispatchToProps = {

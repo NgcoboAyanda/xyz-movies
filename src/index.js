@@ -17,7 +17,7 @@ const firebaseKey = process.env.REACT_APP_FIREBASE_API_KEY
 const firebaseConfig = {
     apiKey: firebaseKey,
     authDomain: 'xyz-movies.firebaseapp.com',
-    databaseURL: 'https://xyz-movies.firebaseio.com',
+    databaseURL: 'https://xyz-movies-default-rtdb.firebaseio.com/',
     projectId: 'xyz-movies',
     storageBucket: 'xyz-movies.appspot.com',
     appId: '1:361828942881:web:0ec3e18505610f03b3cf60'
@@ -25,9 +25,23 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig)
 
+const database = firebase.database()
+
+const movies = async () =>{
+    let mov = await database.ref('movies/action')
+    mov.on('value', (resp)=>{
+        const data = resp.val()
+        console.log(data)
+        //console.log(JSON.parse(data))
+    })
+}
+
+movies()
+
 const checkSignIn = (dispatchFunc) => firebase.auth().onAuthStateChanged( user => {//checking if user is signed in
     if(user){
-            dispatchFunc(user)
+            const{emailVerified} = user
+            dispatchFunc(user, emailVerified)
     }
 } )
 

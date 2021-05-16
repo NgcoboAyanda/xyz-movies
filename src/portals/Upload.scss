@@ -1,0 +1,58 @@
+.portal{
+    position: fixed;
+    z-index: 6;
+    height: 100vh;
+    width: 100vw;
+}
+
+.upload-box-wrapper{
+    position: absolute;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.568);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+    
+
+    .upload-box{
+        background: white;
+        border-radius: 10px;
+        height: 650px;
+        width: 550px;
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        padding: 0 20px;
+        padding-bottom: 20px;
+
+        &-title{
+            flex: 0 0 100px;
+            //background: red;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.11);
+
+            h2{
+                font-size: 1.8rem;
+                font-weight: 200;
+            }
+        }
+
+        &-content{
+            flex: 1;
+            background: rgba(0, 128, 0, 0.034);
+
+            &-item{
+                margin-top: 20px;
+            }
+        }
+    }
+}
+
+
+

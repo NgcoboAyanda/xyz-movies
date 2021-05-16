@@ -11,25 +11,36 @@ export const Search = term => {
     }
 }
 
-export const LoginSuccess=({uid,email,emailVerified,displayName,photoURL})=> async dispatch =>{ {//Login succesful
-    const msg = 'You are now logged in'
-    dispatch(NotifySuccess(msg))
-    dispatch({
-        type: 'LOGIN_SUCCESS',
-        payload:{
-            userId:uid,
-            email,
-            emailVerified,
-            displayName,
-            photoURL
-        }
-    })
-} }       
+export const LoginSuccess=(response,emailVerified)=> async dispatch =>{ {//Login succesful
+    
+    switch (emailVerified) {
+        case true:
+            const {uid,email,emailVerified,displayName,photoURL} = response
+            const msg = 'You are now logged in'
+            dispatch(NotifySuccess(msg))
+            dispatch({
+                type: 'LOGIN_SUCCESS',
+                payload:{
+                    userId:uid,
+                    email,
+                    emailVerified,
+                    displayName,
+                photoURL
+                }
+            })
+            break;
+        case false:
+            dispatch( NotifyError('Verify email to login!!!') )
+            const user = firebase.auth().currentUser
+            dispatch( LogOut() )
+        default:
+            break;
+    }
+    
+  }
+}        
 
 export const LogoutSuccess=()=> async dispatch=>{
-    const msg = "You've been successfully logged out"
-    dispatch( NotifySuccess(msg) )
-
     dispatch({
         type: 'LOGOUT_SUCCESS',
         payload: {
@@ -58,16 +69,18 @@ export const NotifyError = (msg)=>{
 export const Login = (email,password) => async (dispatch)=>{
     await firebase.auth().signInWithEmailAndPassword(email, password)
     .then((response)=> {
-        dispatch( LoginSuccess(response.user) )
+        const {user:{emailVerified}} = response
+        dispatch( LoginSuccess(response.user, emailVerified) )
     }) 
     .catch(err=> dispatch( NotifyError(err.message) ))
 }
 
 export const signUp = ( email,password ) => async dispatch=>{
     await firebase.auth().createUserWithEmailAndPassword(email, password)
-    .then(user => {
-        dispatch( NotifySuccess('Successfully signed up, you will be logged in shortly') )
-        dispatch( LoginSuccess(user) )
+    .then(response => {
+        const {user:{emailVerified}} = response
+        dispatch(verifyEmail())
+        dispatch( LoginSuccess(response.user, emailVerified) )
     })
     .catch(err=> dispatch( NotifyError(err.message) ))
 }
@@ -109,8 +122,7 @@ export const updateDisplayName = (newDisplayName) => async dispatch => {
 export const updatePhotoURL = (newPhotoURL) => async dispatch => {
     const user = firebase.auth().currentUser
     await user.updateProfile({photoURL:newPhotoURL})
-    .then((response)=>{
-        console.log(response.status)
+    .then(()=>{
         dispatch(
             NotifySuccess(`PhotoURL has been successfully changed`)
         )
@@ -129,9 +141,7 @@ export const updatePhotoURL = (newPhotoURL) => async dispatch => {
 export const verifyEmail = () => async dispatch =>{
     const user = firebase.auth().currentUser
     await user.sendEmailVerification()
-    .then(()=>{
-        dispatch( NotifySuccess('Verification Email has been sent, please check your inbox') )
-    })
+    .then(resp => resp)
     .catch(err=> dispatch( NotifyError(err.message) ))
 }
 
@@ -188,3 +198,12 @@ export const reAuthenticate = (email,password, my_function) => async dispatch =>
     .catch(err=> dispatch(NotifyError(err.message)))
 }
 
+
+
+export const searchMovie = (title) => async dispatch =>{
+    const API_KEY = process.env.REACT_APP_TMDB
+    const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${title}`)
+    .then(resp=>resp.json())
+    .catch(err => console.log(`error: ${err}`))
+    console.log(response)
+}

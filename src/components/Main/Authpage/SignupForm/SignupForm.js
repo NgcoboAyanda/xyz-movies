@@ -75,26 +75,6 @@ class SignupForm extends Component {
         e.preventDefault()
     }
 
-    renderSignupBtn=()=>{
-        const {loading} = this.state
-        if(!loading){//if the app is not loading, it shows the button
-            return (
-                <SubmitBtn 
-                    text="Sign up" 
-                    onSubmit={this.signUp}
-                    loading={this.state.loading}
-                />
-            )
-        }
-        else if(loading){// if app is loading it shows a loading animation
-            return(
-                <div className="loading">
-                    <div className="animation"></div>
-                </div>
-            )
-        }
-    }
-
     render(){
         return(
             <form className="login-page-form">
@@ -123,7 +103,11 @@ class SignupForm extends Component {
                             placeholder='Repeat password'
                         />
                         <div className="actionBtnWrapper">
-                             {this.renderSignupBtn()}
+                            <SubmitBtn 
+                                text="Sign up" 
+                                onSubmit={this.signUp}
+                                loading={this.state.loading}
+                            />
                         </div>
                     </form>
         ) 
