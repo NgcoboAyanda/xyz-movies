@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
-import { searchMovie } from '../actions'
+import { searchTMDB } from '../actions'
 import Searchbox from './Searchbox/Searchbox'
 
 import './Upload.scss'
 
-const Upload = ({show, parent, dismiss, searchMovie}) =>{  
+const Upload = ({show, parent, searchTMDB, searchSuggestions}) =>{
+    const[radioValue,setRadioValue] = useState('movie')
+    let movieRadioRef
 
     if(!show || !parent){
         return null
@@ -21,9 +23,24 @@ const Upload = ({show, parent, dismiss, searchMovie}) =>{
                     </div>
                     <div className="upload-box-content">
                         <form className="upload-box-content-item">
+                            <div className="radios">
+                                <div className="option">
+                                    <input type="radio" ref={ref=> movieRadioRef=ref} name="media" id="movie" value="movie"
+                                    onClick={e=>setRadioValue(e.target.value)}
+                                    defaultChecked={true}
+                                    />
+                                    <label htmlFor="movie">Movie</label>
+                                </div>
+                                <div className="option">
+                                    <input type="radio" name="media" id="tv" value="tv" onClick={e=>setRadioValue(e.target.value)}/>
+                                    <label htmlFor="tv">TV show</label>
+                                </div>  
+                            </div>
                             <Searchbox
+                                type={radioValue}
                                 label="Movie title"
-                                onChange={searchMovie}
+                                onChange={searchTMDB}
+                                searchSuggestions={searchSuggestions}
                             />
                         </form>
                     </div>
@@ -32,8 +49,12 @@ const Upload = ({show, parent, dismiss, searchMovie}) =>{
         </div>
         ,
         parent
-    )
-    
+    )   
 }
 
-export default connect(null, {searchMovie})(Upload)
+const mapStateToProps = state => {
+    const{search:{suggestions}} = state
+    return {searchSuggestions: suggestions}
+}
+
+export default connect(mapStateToProps, {searchTMDB})(Upload)

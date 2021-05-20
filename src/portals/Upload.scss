@@ -46,9 +46,23 @@
         &-content{
             flex: 1;
             background: rgba(0, 128, 0, 0.034);
-
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            
             &-item{
                 margin-top: 20px;
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+
+                .radios{
+                    margin-bottom: 20px;
+                    display: flex;
+                    .option:first-child{
+                        margin-right: 3%;
+                    }
+                }
             }
         }
     }

@@ -1,0 +1,63 @@
+.textBox-suggestion{
+    position: absolute;
+    top: 55px;
+    z-index: 6;
+    width: 480px;
+    box-sizing: border-box;
+    padding: 0 15px;
+    background: white;
+    border: 1px solid rgba(88, 88, 88, 0.24);
+    border-radius: 8px;
+
+    &-items{
+        width: 100%;
+        //background: yellow;
+        display: flex;
+        flex-direction: column;
+        
+
+        .search-suggestion{
+            display: flex;
+            align-items: center;
+            padding: 7px 5px;
+            border-bottom: 1px solid rgb(197, 197, 197);
+            color: rgb(77, 75, 75);
+
+            .photo{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                
+                .photo-image{
+                    width: 50px;
+                    height: 50px;
+                    border-radius: 5px;
+                }
+            }
+
+            .text{
+                flex: 1;
+                margin-right: auto;
+                display: flex;
+                flex-direction: column;
+                padding-left: 10px;
+
+                &-title{
+                    font-size: 1.1rem;
+                    font-weight:500;
+                }
+                &-year{
+                    font-style: italic;
+                    font-size: 0.8rem;
+                    padding-left: 10px;
+                }
+            }
+            .rating{
+                //background: red;
+                padding: 10px;
+                border-radius: 100px;
+                border: 1px solid rgb(77, 75, 75);;
+            }
+        }
+    }
+}

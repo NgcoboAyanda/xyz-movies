@@ -1,19 +1,12 @@
 import { combineReducers } from 'redux'
 import { UserReducer } from './UserReducer.js'
 import { NotifReducer } from './NotifReducer.js'
+import { SearchReducer } from './SearchReducer.js'
 
-const searchReducer = (searchHistory=[],action)=> {
-    switch(action.type) {
-        case 'SEARCH':
-            return [...searchHistory,action.payload]
-        default:
-            return searchHistory
-    }
-}
 
 export default combineReducers(
     {
-        searchHistory: searchReducer,
+        search: SearchReducer,
         user: UserReducer,
         notifications: NotifReducer
     }

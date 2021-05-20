@@ -198,12 +198,22 @@ export const reAuthenticate = (email,password, my_function) => async dispatch =>
     .catch(err=> dispatch(NotifyError(err.message)))
 }
 
-
-
-export const searchMovie = (title) => async dispatch =>{
+export const searchTMDB = (type, title) => async dispatch =>{
     const API_KEY = process.env.REACT_APP_TMDB
-    const response = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${title}`)
-    .then(resp=>resp.json())
-    .catch(err => console.log(`error: ${err}`))
-    console.log(response)
+    const response = await fetch(`https://api.themoviedb.org/3/search/${type}?api_key=${API_KEY}&query=${title}`)
+    const{status,results} = response
+    if(status === 200){
+        response.json()
+        .then(res=>{
+            const {results} = res
+            let firstFiveResults = results.slice(0,5)
+            console.log(firstFiveResults)
+            dispatch({
+                type: 'LIST_SEARCH_SUGGESTIONS',
+                payload: firstFiveResults
+            })
+        })
+    }
 }
+
+
