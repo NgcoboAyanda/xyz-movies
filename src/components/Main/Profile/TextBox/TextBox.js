@@ -10,12 +10,14 @@ const TextBox = ({label, notifs, submit, defValue, showError, allowEdit}) => {
 
     useEffect( () => {
             setLoad(false)
-            if(notifs){
+            try{
                 const notifID = Object.keys(notifs)[0]
                 const {type} = notifs[notifID]
                 if(type === "success"){
                     setEdit(false)
                 }
+            }
+            catch (error){
             }
         },
         [notifs]

@@ -2,6 +2,7 @@ import history from '../history.js'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import uniqid from 'uniqid'
+import {getDatabase, ref, set} from "firebase/database"
 
 //Action creators
 export const Search = term => {
@@ -15,9 +16,7 @@ export const LoginSuccess=(response,emailVerified)=> async dispatch =>{ {//Login
     
     switch (emailVerified) {
         case true:
-            const {uid,email,emailVerified,displayName,photoURL} = response
-            const msg = 'You are now logged in'
-            dispatch(NotifySuccess(msg))
+            const {uid,email,emailVerified,displayName,photoURL} = response 
             dispatch({
                 type: 'LOGIN_SUCCESS',
                 payload:{
@@ -216,4 +215,40 @@ export const searchTMDB = (type, title) => async dispatch =>{
     }
 }
 
+export const selectSuggestion = (suggestion) =>{
+    return {
+        type: 'SELECT_SEARCH_SUGGESTION',
+        payload: suggestion
+    }
+}
+
+/* ctrl + k + 0 to fold all */
+
+export const writeTV = (genres, id, obj) => async dispatch =>{
+    const db = await firebase.database()
+    /*ref('tv/10759/62715').set(
+        {
+            title: 'this the new title foo'
+        }
+    )*/
+    genres.forEach( genre=>{
+        db.ref(`tv/${genre}`).child(id).set(
+            obj
+        )
+    })
+}
+
+export const writeMovie = (genres, id, obj) => async dispatch =>{
+    const db = await firebase.database()
+    /*ref('tv/10759/62715').set(
+        {
+            title: 'this the new title foo'
+        }
+    )*/
+    genres.forEach( genre=>{
+        db.ref(`movies/${genre}`).child(id).set(
+            obj
+        )
+    })
+}
 

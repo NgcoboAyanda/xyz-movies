@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState, useRef, useEffect } from 'react'
+import useDebounce from './Debounce'
 
 import './Searchbox.scss'
 
-const Searchbox = ({label, onChange, type, searchSuggestions})=>{
+const Searchbox = ({label, style, onChange, type, searchSuggestions, selectSuggestion})=>{
     const[value,setValue] = useState('')
+    const[loading, setLoading] = useState(false)
+    const[suggestions,setSuggestions] = useState(searchSuggestions)
 
     let inputLabel //inputLabel ref
-    let inputBox //inputBox ref
 
     const onInputFocus = (e)=>{
         const color = 'var(--primary-light)'
@@ -19,22 +21,40 @@ const Searchbox = ({label, onChange, type, searchSuggestions})=>{
         e.target.style.borderColor = 'rgba(0, 0, 0, 0.575)'
     }
 
-    const search = (e) => {
-        setValue(e.target.value)
-        if(value){
-            setTimeout(
-                ()=>{
-                    onChange(type, value)
-                },
-                2000
-            )
+    const handleInputChange = (e) =>{
+        const the_value = e.target.value
+        setValue(the_value)
+        if(the_value.length > 1){
+            setLoading(true)
+        }
+        else{
+            setLoading(false)
+            setSuggestions([])
         }
     }
+
+    useEffect(()=>{
+        setLoading(false)
+        setSuggestions(searchSuggestions)
+    }, [searchSuggestions])
+
+    //debouncedSearchTerm will only change once every 700 milliseconds
+    const debouncedSearchTerm = useDebounce( value, 700)
+
+    //only submit api request when debouncedSearchTerm changes
+    useEffect(
+        () => {
+            if(debouncedSearchTerm) {
+                onChange(type, debouncedSearchTerm)
+            }
+        },
+        [debouncedSearchTerm]
+    )
 
     const renderSearchSuggestions = () => {
         if(value){
             return(
-                searchSuggestions.map(movie=>{
+                suggestions.map(movie=>{
                     const{id} = movie
                     const renderTitle = ()=> {
                         const {name, title} = movie
@@ -72,7 +92,10 @@ const Searchbox = ({label, onChange, type, searchSuggestions})=>{
                         else return <div className="photo-image" style={{backgroundColor:'black'}}></div>
                     }
                     return (
-                        <li className="search-suggestion" key={id}>
+                        <li className="search-suggestion" onClick={()=>{
+                            selectSuggestion(movie)
+                            setValue('')
+                        }} key={id}>
                             <span className="photo">
                                  {renderPoster()}
                             </span>
@@ -90,19 +113,25 @@ const Searchbox = ({label, onChange, type, searchSuggestions})=>{
         }
     }
 
+    const renderLoader = ()=>{
+        if(loading){
+            return <div className="loader"></div>
+        }
+    }
+
     return(
-        <div className="textBox" style={{alignSelf:'center', width:'480px', height:'100%'}}>
-            <div className="textBox-label" ref={ref=>inputLabel=ref}>{label}</div>
+        <div className="textBox" style={style}>
+            <div className="textBox-label" style={{color:'rgba(0, 0, 0, 0.68)'}} ref={ref=>inputLabel=ref}>{label}</div>
             <div className="textBox-input-wrapper" style={{background:'white'}}>
                 <input type="text" 
                     style={{paddingRight:'0'}}
                     className="textBox-input"
-                    ref={ref=>inputBox=ref}
                     value = {value}
-                    onChange={e=>search(e)} 
+                    onChange={e=>handleInputChange(e)} 
                     onFocus={e=>onInputFocus(e)} 
                     onBlur={e=>onInputBlur(e)}
                 />
+                {renderLoader()}
             </div>
             <div className="textBox-suggestion">
                 <ul className="textBox-suggestion-items">

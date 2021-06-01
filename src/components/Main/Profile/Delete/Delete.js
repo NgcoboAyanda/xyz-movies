@@ -24,8 +24,8 @@ const DeleteAccount = ({deleteAccount, notifs, NotifyError, email, loggedIn}) =>
     }
 
     return(
-        <div className="delete-account-page">
-            <div className="delete-btn-wrapper">
+        <div className="profile-delete-main">
+            <div className="profile-delete-content">
                 <div className="title">
                     delete account
                 </div>
