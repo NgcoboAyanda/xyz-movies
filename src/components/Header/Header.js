@@ -3,7 +3,6 @@ import {withRouter,Link} from 'react-router-dom';
 
 import Navbar from './Navbar/Navbar';
 import './Header.scss';
-import NotifBox from './Notifications';
 
 class Header extends Component{
 
@@ -11,7 +10,6 @@ class Header extends Component{
         return(
             <header>
                 <Navbar/>
-                <NotifBox notifications={this.props.notifications}/>
             </header>
         )
     } 

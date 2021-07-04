@@ -1,5 +1,8 @@
 import React, {Component} from 'react'
+import ReactDOM from 'react-dom'
 import {connect} from 'react-redux'
+
+import './Notification.scss'
 
 class NotifBox extends Component{
     state = {mount:false}
@@ -32,10 +35,10 @@ class NotifBox extends Component{
     render(){
         const {mount} = this.state
         if(mount){//if mount is true
-            return (
+            return ReactDOM.createPortal(
                 <div className='app-notification'>
                     {this.renderNotifs()}
-                </div>
+                </div>, document.querySelector('.app')
             )
         }
         return null 

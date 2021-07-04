@@ -1,25 +1,36 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
-import { searchTMDB, selectSuggestion, writeTV, writeMovie } from '../actions'
-import SubmitBtn from '../components/Utility/SubmitBtn/SubmitBtn'
-import Searchbox from './Searchbox/Searchbox'
-import Textbox from './Textbox/Textbox'
+import { searchTMDB, selectSuggestion, writeTV, writeMovie, NotifyError } from '../../actions'
+import Checkbox from '../../components/Utility/Checkbox/Checkbox'
+import SubmitBtn from '../../components/Utility/SubmitBtn/SubmitBtn'
+import Searchbox from '../../components/Utility/Searchbox/Searchbox'
+import Textbox from '../../components/Utility/Textbox/Textbox'
+import validate from './Validation'
 
 import './Upload.scss'
+import Select from '../../components/Utility/Select/Select'
 
-const Upload = ({show, parent, searchTMDB, searchSuggestions, selectSuggestion, current, notifs, writeTV}) =>{
+const Upload = ({show, parent, searchTMDB, searchSuggestions, selectSuggestion, current, notifs, writeTV, writeMovie, dismiss, NotifyError}) =>{
     const[radioValue,setRadioValue] = useState('movie')
+
     const[title,setTitle] = useState('')
     const[year, setYear] = useState('')
     const[genres, setGenres] = useState('')
     const[id,setId] = useState('')
     const[season, setSeason] = useState('')
     const[episode, setEpisode] = useState('')
+    const[completeSeason, setCompleteSeason] = useState(false)
+    const[completeSeries, setCompleteSeries] = useState(false)
+    const[tvType, settvType] = useState('episode')
     const[magnet, setMagnet] = useState('')
+    const[quality, setQuality] = useState('360p')
+    const[codec, setCodec] = useState('AVC')
+
     const[loading,setLoading] = useState(false)
 
-    useEffect(
+
+    useEffect(//when notification state changes
         ()=>{
             if(notifs){
                 setLoading(false)
@@ -28,9 +39,20 @@ const Upload = ({show, parent, searchTMDB, searchSuggestions, selectSuggestion, 
         [notifs]
     )
 
-    useEffect(
+    useEffect(//when radioValue changes
+        ()=>{
+            setTitle('')
+            setId('')
+            setYear('')
+            setMagnet('')
+        },
+        [radioValue]
+    )
+
+    useEffect(//when current movie object changes
         ()=>{
             if(current){
+                setMagnet('')
                 const{title, name, id, genre_ids, release_date, first_air_date} = current
                 if(id){
                     setId(id)
@@ -76,7 +98,42 @@ const Upload = ({show, parent, searchTMDB, searchSuggestions, selectSuggestion, 
 
     const renderSeason = ()=>{
         if(radioValue === 'tv'){
-            return(
+            const handleCompleteSeason = (value)=>{
+                if(!completeSeason){
+                    setEpisode('')
+                    setCompleteSeries(false)
+                }
+                setCompleteSeason(value)
+                //if every checkbox if unchecked then tvType will be episode
+                if(!value && !completeSeries){
+                    settvType('episode')
+                }
+                else if(value){
+                    settvType('season')
+                }
+            }
+            const handleCompleteSeries = (value)=>{
+                if(!completeSeries){
+                    setSeason('')
+                    setEpisode('')
+                    setCompleteSeason(false)
+                }
+                setCompleteSeries(value)
+                //if every checkbox if unchecked then tvType will be episode
+                if(!value && !completeSeason){
+                    settvType('episode')
+                }
+                else if(value){
+                    settvType('complete')
+                }
+            }
+            const renderEpisodeBox=()=>{
+                if(!completeSeason && !completeSeries){
+                    return false
+                }
+                else return true
+            }
+            const result = (
                 <div className="season" style={{display:'flex'}}>
                     <Textbox
                         label="Season"
@@ -84,46 +141,86 @@ const Upload = ({show, parent, searchTMDB, searchSuggestions, selectSuggestion, 
                         type="number"
                         value ={season}
                         setValue={setSeason}
+                        disabled = {completeSeries}
                     />
                     <Textbox
                         label="Episode"
                         style={{width:'80px'}}
-                        type="number"
+                        type="text"
                         value = {episode}
                         setValue={setEpisode}
+                        disabled = {renderEpisodeBox()}
                     />
+                    <Checkbox label="complete season" value={completeSeason} setValue={handleCompleteSeason}/>
+                    <Checkbox label="complete series" value={completeSeries} setValue={handleCompleteSeries} />
                 </div>
             )
+            return result
         }
     }
 
-    const log = () =>{
-        setLoading(true)
-        const parsed = JSON.stringify(
-            {
-                [id]:{
-                    type: radioValue,
-                    title,
-                    year,
-                    genres,
-                    magnet
-                }
-            }
-        )
-        console.log(parsed)
-    }
-
-    const submitToDB = e=> {
-        setLoading(true)
+    const handleMagnetLink = ()=>{
+        //creating link object 
         switch (radioValue) {
-            case 'movie':
-                writeMovie(["all",...genres],id, { title,release_date: year,genres,links:[magnet] })
-                break;
             case 'tv':
-                writeTV(["all",...genres], id,{title , first_air_date:year, genres,links:[magnet]})
+                if(tvType === 'episode'){
+                    return {
+                        type: 'episode',
+                        season,
+                        episode,
+                        quality,
+                        codec,
+                        link: magnet
+                    }
+                }
+                else if(tvType === 'season'){
+                    return {
+                        type: 'season',
+                        season,
+                        quality,
+                        codec,
+                        link: magnet
+                    }
+                }
+                else if(tvType === 'complete'){
+                    return {
+                        type: 'complete',
+                        quality,
+                        codec,
+                        link: magnet
+                    }
+                }
+                break;
+            case 'movie':
+                return {
+                    type: 'movie',
+                    link: magnet,
+                    codec,
+                    quality
+                }
             default:
                 break;
         }
+    } 
+
+    const submitToDB = e=> {
+        setLoading(true)
+        validate(
+            {   
+                id, 
+                title, 
+                type:radioValue,
+                genres, 
+                year, 
+                links: handleMagnetLink()
+            }, writeMovie, writeTV, NotifyError)
+    }
+
+    const dismissModal = ()=>{
+        setMagnet('')
+        setYear('')
+        setId('')
+        dismiss()
     }
     
     return ReactDOM.createPortal(
@@ -152,7 +249,7 @@ const Upload = ({show, parent, searchTMDB, searchSuggestions, selectSuggestion, 
                                 <Searchbox
                                     type={radioValue}
                                     style = {{width:'480px', alignSelf:'center'}}
-                                    label="Search Movie"
+                                    label="Search"
                                     onChange={searchTMDB}
                                     searchSuggestions={searchSuggestions}
                                     selectSuggestion={selectSuggestion}
@@ -172,6 +269,19 @@ const Upload = ({show, parent, searchTMDB, searchSuggestions, selectSuggestion, 
                                     value = {id}
                                     setValue={setId}
                                 />
+                                <div className="select-wrapper" style={{display:"flex"}}>
+                                    <Select 
+                                        options={['360p', '576p', '720p', '1080p', '2160p']} setOption={setQuality} 
+                                        value={quality}
+                                        label="Quality"
+                                    />
+                                    <Select 
+                                        options={['AVC', 'H.264', 'H.265']} 
+                                        setOption={setCodec} 
+                                        value={codec}
+                                        label="Codec"
+                                        />
+                                </div>
                                 <Textbox
                                     label="Year"
                                     type="number"
@@ -180,7 +290,7 @@ const Upload = ({show, parent, searchTMDB, searchSuggestions, selectSuggestion, 
                                     setValue={setYear}
                                 />
                                 <Textbox
-                                    label="Magnet link"
+                                    label="Download link"
                                     type="text"
                                     value = {magnet}
                                     setValue ={setMagnet}
@@ -195,7 +305,9 @@ const Upload = ({show, parent, searchTMDB, searchSuggestions, selectSuggestion, 
                                     <SubmitBtn
                                         text="Cancel"
                                         className="action-btn"
-                                        onSubmit={log}
+                                        onSubmit={()=>{
+                                            dismissModal()
+                                        }}
                                     />
                                 </div>
                             </div>
@@ -205,8 +317,7 @@ const Upload = ({show, parent, searchTMDB, searchSuggestions, selectSuggestion, 
             </div>
         </div>
         ,
-        parent
-    )   
+        parent)
 }
 
 const mapStateToProps = state => {
@@ -214,4 +325,4 @@ const mapStateToProps = state => {
     return {searchSuggestions: suggestions, current,notifs:notifications}
 }
 
-export default connect(mapStateToProps, {searchTMDB, selectSuggestion, writeTV})(Upload)
+export default connect(mapStateToProps, {searchTMDB, selectSuggestion, writeTV, writeMovie, NotifyError })(Upload)

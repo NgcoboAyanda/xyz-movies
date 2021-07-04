@@ -10,32 +10,5 @@ header {
         display: none;
     }
 
-    .app-notification{
-        position: absolute;
-        top: 110%;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: 0.9rem;
-        color: white;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: -1;
-        background: transparent;
-
-        div{
-            text-align: center;
-            padding: 1% 1%;
-            border-radius: 3px;
-        }
-
-        .error{
-            background: rgb(226, 54, 54); 
-        }
-
-        .success{
-            background: rgb(36, 163, 85);
-        }
-    }
 }
 

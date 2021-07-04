@@ -28,11 +28,8 @@ firebase.initializeApp(firebaseConfig)
 const database = firebase.database()
 
 const movies = async () =>{
-    let mov = await database.ref('tv/16')
-    mov.on('value', (resp)=>{
-        const data = resp.val()
-        console.log(data)
-        //console.log(JSON.parse(data))
+    database.ref('movie/').orderByKey().once('value', data=>{
+        console.log(data.val())
     })
 }
 

@@ -1,4 +1,5 @@
 import React, { useCallback, useState, useRef, useEffect } from 'react'
+import Infobox from '../Infobox/Infobox'
 import useDebounce from './Debounce'
 
 import './Searchbox.scss'
@@ -33,13 +34,20 @@ const Searchbox = ({label, style, onChange, type, searchSuggestions, selectSugge
         }
     }
 
-    useEffect(()=>{
+    useEffect(()=>{//when search suggestions changes
         setLoading(false)
         setSuggestions(searchSuggestions)
     }, [searchSuggestions])
 
+    useEffect(//when media type changes
+        ()=>{
+            setSuggestions([])
+        },
+        [type]
+    )
+
     //debouncedSearchTerm will only change once every 700 milliseconds
-    const debouncedSearchTerm = useDebounce( value, 700)
+    let debouncedSearchTerm = useDebounce( value, 700)
 
     //only submit api request when debouncedSearchTerm changes
     useEffect(
@@ -130,6 +138,11 @@ const Searchbox = ({label, style, onChange, type, searchSuggestions, selectSugge
                     onChange={e=>handleInputChange(e)} 
                     onFocus={e=>onInputFocus(e)} 
                     onBlur={e=>onInputBlur(e)}
+                />
+                 <Infobox 
+                    h='25px' 
+                    w='25px'
+                    info = 'Use search to get details about movies'
                 />
                 {renderLoader()}
             </div>

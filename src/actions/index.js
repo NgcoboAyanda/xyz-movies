@@ -3,6 +3,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 import uniqid from 'uniqid'
 import {getDatabase, ref, set} from "firebase/database"
+import { snap } from 'gsap/gsap-core'
 
 //Action creators
 export const Search = term => {
@@ -206,7 +207,6 @@ export const searchTMDB = (type, title) => async dispatch =>{
         .then(res=>{
             const {results} = res
             let firstFiveResults = results.slice(0,5)
-            console.log(firstFiveResults)
             dispatch({
                 type: 'LIST_SEARCH_SUGGESTIONS',
                 payload: firstFiveResults
@@ -224,31 +224,88 @@ export const selectSuggestion = (suggestion) =>{
 
 /* ctrl + k + 0 to fold all */
 
-export const writeTV = (genres, id, obj) => async dispatch =>{
+export const writeTV = obj => async dispatch =>{
     const db = await firebase.database()
-    /*ref('tv/10759/62715').set(
-        {
-            title: 'this the new title foo'
+    const{id} = obj//getting movie id
+    db.ref(`tv/${id}`).once('value', async data=>{
+        let result = data.val()
+        const link = obj.links// the new link user just added
+        if(result){//show already exists on db
+            const oldLinks = result.links
+            let newLinks = []
+            let error = false
+            //getting every link in oldLinks and adding it to newLinks
+            if(oldLinks){
+                for(let [key, value] of Object.entries(oldLinks)){
+                    if(value.link !== link.link){
+                        newLinks.push(value)
+                    }
+                    else{
+                        error = true
+                        dispatch(NotifyError("Download link already exists!"))
+                    }
+                }
+            }
+            if(!error){//only adding link if there are no errors
+                db.ref('tv').child(id).set(
+                    {
+                    ...obj,
+                   links:[...newLinks, link]//adding new link to the show's list of links
+                    }
+                ).then(()=>dispatch(NotifySuccess("TV Show upload succesful.")))
+                .catch(err=>dispatch(NotifyError(err.message)))
+            }
         }
-    )*/
-    genres.forEach( genre=>{
-        db.ref(`tv/${genre}`).child(id).set(
-            obj
-        )
+        else{//show doesnt already exist
+            db.ref(`tv`).child(id).set({
+                ...obj,
+                links:[link]
+            }).then(()=>dispatch(NotifySuccess("TV Show upload succesful.")))
+            .catch(err=>dispatch(NotifyError(err.message)))
+        }
     })
 }
 
-export const writeMovie = (genres, id, obj) => async dispatch =>{
+export const writeMovie = obj => async dispatch =>{
     const db = await firebase.database()
-    /*ref('tv/10759/62715').set(
-        {
-            title: 'this the new title foo'
+    const{id} = obj//getting movie id
+    db.ref(`movie/${id}`).once('value', async data=>{
+        let result = data.val()
+        const link = obj.links// the new link user just added
+        if(result){//show already exists on db
+            const oldLinks = result.links
+            let newLinks = []
+            let error //
+            //getting every link in oldLinks and adding it to newLinks
+            if(oldLinks){//if oldLinks exist
+                for(let [key, value] of Object.entries(oldLinks)){
+                    if(value.link !== link.link){
+                        newLinks.push(value)
+                    }
+                    else{
+                        dispatch(NotifyError("Download link already exists!"))
+                        error = true//setting errors to true if download link already exists
+                    }
+                }
+            }
+            if(!error){
+                db.ref('movie').child(id).set(
+                    {
+                        ...obj,
+                    links:[...newLinks, link]//adding new link to the show's list of links
+                    }
+                ).then(()=>dispatch( NotifySuccess("Movie upload successful.") ))
+                .catch(err=>dispatch( NotifyError(err.message) ))
+            }
         }
-    )*/
-    genres.forEach( genre=>{
-        db.ref(`movies/${genre}`).child(id).set(
-            obj
-        )
+        else{//show doesnt already exist
+            db.ref(`movie`).child(id).set({
+                ...obj,
+                links:[link]
+            }).then(()=>dispatch( NotifySuccess("Movie upload successful.") ))
+            .catch(err=>dispatch( NotifyError(err.message) ))
+        }
     })
 }
+
 

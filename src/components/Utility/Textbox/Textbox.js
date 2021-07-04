@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-const Textbox = ({style, label, type, value = '', setValue}) => {
+const Textbox = ({style, label, type, value = '', setValue, disabled}) => {
     let inputLabel
     let inputBox
 
@@ -27,6 +27,7 @@ const Textbox = ({style, label, type, value = '', setValue}) => {
                     onChange={e=>setValue(e.target.value)} 
                     onFocus={e=>onInputFocus(e)} 
                     onBlur={e=>onInputBlur(e)}
+                    disabled={disabled}
                 />
             </div>
         </div>

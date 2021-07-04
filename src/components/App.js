@@ -15,7 +15,8 @@ import Profile from './Main/Profile/Profile.js';
 import { LoginSuccess } from '../actions/index.js';
 import { connect } from 'react-redux';
 import UploadBtn from './UploadBtn/UploadBtn.js';
-import Upload from '../portals/Upload.js';
+import Upload from '../portals/Upload/Upload.js';
+import Notification from '../portals/Notification/Notification.js';
 
 class App extends Component{
     state = {ref:null, showUpload:false}
@@ -34,8 +35,9 @@ class App extends Component{
         return(
                 <Router history={history}>
                     <div className="app" ref={ref=>this.appRef=ref}>
-                        <Upload show={this.state.showUpload} parent={this.state.ref} dismiss={this.toggleUpload} />
                         <Header/>
+                            <Notification/>
+                            <Upload show={this.state.showUpload} parent={this.state.ref} dismiss={this.toggleUpload} />
                             <Switch>
                                 <Route exact path="/" component={Homepage}/>
                                 <Route exact path="/search/:term" component={Searchpage}/>
